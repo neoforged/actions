@@ -53,7 +53,7 @@ jobs:
       uses: oleksiyrudenko/gha-git-credentials@v2-latest
       with:
         global: true
-        #actor: 'neoforged-actions-automation[bot]'
+        actor: 'neoforged-actions-automation[bot]'
         token: ${{ steps.gen_repo_token.outputs.token }}
 
     - name: Clone repository to organization
