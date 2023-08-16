@@ -1,0 +1,45 @@
+name: Fork Repository
+ 
+on:
+  workflow_dispatch:
+    inputs:
+      to_fork:
+        description: 'The path of the GitHub repository to fork'
+        required: true
+      fork_name:
+        description: 'The name of the repo to fork to'
+        required: true
+ 
+jobs:
+  clone:
+    runs-on: ubuntu-latest
+ 
+    steps:
+    - name: Generate an Application access token
+      id: gen_token
+      uses: kattecon/gh-app-access-token-gen@v1
+      with:
+          app_id: 376723
+          private_key: ${{ secrets.APPLICATION_KEY }}
+          installation_id: 40772190
+
+    - name: Create repository
+      uses: f1lander/create-repository-action@v1.0.2
+      with:
+        name: ${{ github.event.inputs.fork_name }}
+        org: 'neoforged'
+        access-token: ${{ steps.gen_token.outputs.token }}
+
+    - name: Check out repository
+      uses: actions/checkout@v2
+      with:
+        fetch-depth: 0
+        repository: ${{ github.event.inputs.to_fork }}
+ 
+    - name: Clone repository to organization
+      run: |
+        git remote rm origin
+        git remote add origin ${{ steps.gen_token.outputs.token }}@github.com/NeoForged/${{ github.event.inputs.fork_name }}.git
+        git push -u origin --all
+      env:
+        ORG_GITHUB_TOKEN: ${{ steps.gen_token.outputs.token }} # Needs appropriate permissions to push to the organization repository
