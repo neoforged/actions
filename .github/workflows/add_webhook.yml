@@ -27,13 +27,9 @@ jobs:
           repository: neoforged/${{ github.event.inputs.repo }}
       - name: Checkout repository
         uses: actions/checkout@main
-      - name: Mask hook URL
-        run: echo "::add-mask::$HOOK_URL"
-        env:
-          HOOK_URL: ${{ github.event.inputs.hook }}
       - name: Add webhook
-        run: groovy .github/workflows/webhook/add_webhook.groovy
+        run: groovy .github/workflows/scripts/add_webhook.groovy
         env:
           AUTH_TOKEN: ${{ steps.gen_repo_token.outputs.token }}
           REPO_NAME: neoforged/${{ github.event.inputs.repo }}
-          HOOK_URL: ${{ github.event.inputs.hook }}
+          EVENT_PATH: ${{ github.event_path }}
