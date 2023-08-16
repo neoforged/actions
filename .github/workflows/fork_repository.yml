@@ -36,10 +36,15 @@ jobs:
         fetch-depth: 0
         repository: ${{ github.event.inputs.to_fork }}
  
+    - name: Set Git credentials
+      uses: oleksiyrudenko/gha-git-credentials@v2-latest
+      with:
+        token: ${{ steps.gen_token.outputs.token }}
+
     - name: Clone repository to organization
       run: |
         git remote rm origin
-        git remote add origin https://neoforged-actions-automation[bot]:${{ steps.gen_token.outputs.token }}@github.com/NeoForged/${{ github.event.inputs.fork_name }}.git
+        git remote add origin https://github.com/NeoForged/${{ github.event.inputs.fork_name }}.git
         git push -u origin --all
       env:
         ORG_GITHUB_TOKEN: ${{ steps.gen_token.outputs.token }} # Needs appropriate permissions to push to the organization repository
