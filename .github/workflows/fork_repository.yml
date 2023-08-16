@@ -49,12 +49,12 @@ jobs:
         git remote rm origin
         git remote add origin https://automation:${{ steps.gen_repo_token.outputs.token }}@github.com/NeoForged/${{ github.event.inputs.fork_name }}.git
 
-    - name: Set Git credentials
-      uses: oleksiyrudenko/gha-git-credentials@v2-latest
-      with:
-        global: true
-        actor: 'neoforged-actions-automation[bot]'
-        token: ${{ steps.gen_repo_token.outputs.token }}
+    #- name: Set Git credentials
+    #  uses: oleksiyrudenko/gha-git-credentials@v2-latest
+    #  with:
+    #    global: true
+    #    actor: 'neoforged-actions-automation[bot]'
+    #    token: ${{ steps.gen_repo_token.outputs.token }}
 
     - name: Clone repository to organization
       run: |
