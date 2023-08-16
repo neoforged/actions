@@ -28,7 +28,9 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@main
       - name: Mask hook URL
-        run: echo "::add-mask::${{ github.event.inputs.hook }}"
+        run: echo "::add-mask::$HOOK_URL"
+        env:
+          HOOK_URL: ${{ github.event.inputs.hook }}
       - name: Add webhook
         run: groovy .github/workflows/webhook/add_webhook.groovy
         env:
