@@ -39,6 +39,8 @@ jobs:
     - name: Set Git credentials
       uses: oleksiyrudenko/gha-git-credentials@v2-latest
       with:
+        global: true
+        actor: 'neoforged-actions-automation[bot]'
         token: ${{ steps.gen_token.outputs.token }}
 
     - name: Clone repository to organization
