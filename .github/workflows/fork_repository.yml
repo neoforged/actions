@@ -52,5 +52,5 @@ jobs:
 
     - name: Clone repository to organization
       run: |
-        git push -u origin --all
+        git push -u origin --all --force
         git push -u origin --tags
