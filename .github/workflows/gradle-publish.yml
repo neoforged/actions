@@ -1,0 +1,119 @@
+# Based off https://github.com/MinecraftForge/SharedActions/blob/main/.github/workflows/gradle.yml
+name: Gradle publishing CI
+
+on:
+  workflow_call:
+    inputs:
+      java:
+        description: "The version of Java to use to run Gradle" # Note: Gradle's Java toolchains feature is used for compiling, which is separate from this
+        required: false
+        type: string
+        default: "17"
+      gradle_tasks:
+        description: "The Gradle task(s) to run"
+        required: false
+        type: string
+        default: "publish"
+    secrets:
+      DISCORD_WEBHOOK:
+        required: true
+      
+      MAVEN_USER:
+        required: false
+      MAVEN_PASSWORD:
+        required: false
+      
+      SONATYPE_USER:
+        required: false
+      SONATYPE_PASSWORD:
+        required: false
+        
+      GPG_PRIVATE_KEY:
+        required: false
+      GPG_KEY_PASSWORD:
+        required: false
+
+permissions:
+  contents: read
+  statuses: write
+
+jobs:
+  notify-build-start:
+    name: Build notifications (start)
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.version.outputs.version }}
+    steps:
+      - uses: matyrobbrt/actions-tag-versioning@v1
+        name: Calculate version
+        id: version
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - uses: matyrobbrt/action-webhooks@v1
+        name: Send Discord start notification
+        with:
+          webhook_url: ${{ secrets.DISCORD_WEBHOOK }}
+          status: 'started'
+          version: ${{ steps.version.outputs.version }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - uses: Sibz/github-status-action@v1
+        name: Set pending status
+        with:
+           authToken: ${{secrets.GITHUB_TOKEN}}
+           context: 'Publishing'
+           state: 'pending'
+           description: "Version: ${{ steps.version.outputs.version }}"
+           target_url: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+
+  gradle:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1000
+          fetch-tags: true
+
+      - name: Make Gradle executable
+        # language=bash
+        run: chmod +x ./gradlew # Thanks Windows
+
+      - name: Setup Java ${{ inputs.java }}
+        # https://github.com/actions/runner-images/blob/main/images/linux/Ubuntu2204-Readme.md#java
+        # language=bash
+        run: export JAVA_HOME=$(echo $JAVA_HOME_${{ inputs.java }}_X64)
+
+      - name: Gradle ${{ inputs.gradle_tasks }}
+        uses: gradle/gradle-build-action@v2
+        with:
+          arguments: ${{ inputs.gradle_tasks }}
+        env:
+          MAVEN_USER: ${{ secrets.MAVEN_USER }}
+          MAVEN_PASSWORD: ${{ secrets.MAVEN_PASSWORD }}
+          GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
+          GPG_PASSWORD: ${{ secrets.GPG_PASSWORD }}
+          SONATYPE_USER: ${{ secrets.SONATYPE_USER }}
+          SONATYPE_PASSWORD: ${{ secrets.SONATYPE_PASSWORD }}
+
+  notify-build-end:
+    name: Build notifications (end)
+    needs: [ "notify-build-start", "gradle" ]
+    if: ${{ always() }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: matyrobbrt/action-webhooks@v1
+        name: Send Discord end notification
+        with:
+          webhook_url: ${{ secrets.DISCORD_WEBHOOK }}
+          status: ${{ needs.gradle.result }}
+          version: ${{ needs.notify-build-start.outputs.version }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - uses: Sibz/github-status-action@v1
+        name: Set build status
+        with:
+           authToken: ${{ secrets.GITHUB_TOKEN }}
+           context: 'Publishing'
+           state: ${{ needs.gradle.result }}
+           description: "Version: ${{ needs.notify-build-start.outputs.version }}"
+           target_url: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
