@@ -9,8 +9,13 @@ on:
         required: false
         type: string
         default: "17"
+      pre_gradle_tasks:
+        description: "The Gradle task(s) to run pre-publication"
+        required: false
+        type: string
+        default: ""
       gradle_tasks:
-        description: "The Gradle task(s) to run"
+        description: "The Gradle task(s) to run at publication"
         required: false
         type: string
         default: "publish"
@@ -82,6 +87,12 @@ jobs:
         # https://github.com/actions/runner-images/blob/main/images/linux/Ubuntu2204-Readme.md#java
         # language=bash
         run: export JAVA_HOME=$(echo $JAVA_HOME_${{ inputs.java }}_X64)
+
+      - name: Gradle pre-publication tasks
+        uses: gradle/gradle-build-action@v2
+        if: inputs.pre_gradle_tasks
+        with:
+          arguments: ${{ inputs.pre_gradle_tasks }}
 
       - name: Gradle ${{ inputs.gradle_tasks }}
         uses: gradle/gradle-build-action@v2
