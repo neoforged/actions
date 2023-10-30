@@ -49,12 +49,12 @@ jobs:
     outputs:
       version: ${{ steps.version.outputs.version }}
     steps:
-      - uses: matyrobbrt/actions-tag-versioning@v1
+      - uses: neoforged/action-tag-versioning@v1
         name: Calculate version
         id: version
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - uses: matyrobbrt/action-webhooks@v1
+      - uses: neoforged/action-webhooks@v1
         name: Send Discord start notification
         with:
           webhook_url: ${{ secrets.DISCORD_WEBHOOK }}
@@ -62,7 +62,7 @@ jobs:
           version: ${{ steps.version.outputs.version }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - uses: Sibz/github-status-action@v1
+      - uses: neoforged/action-github-status@v1
         name: Set pending status
         with:
            authToken: ${{secrets.GITHUB_TOKEN}}
@@ -112,7 +112,7 @@ jobs:
     if: ${{ always() }}
     runs-on: ubuntu-latest
     steps:
-      - uses: matyrobbrt/action-webhooks@v1
+      - uses: neoforged/action-webhooks@v1
         name: Send Discord end notification
         with:
           webhook_url: ${{ secrets.DISCORD_WEBHOOK }}
@@ -120,7 +120,7 @@ jobs:
           version: ${{ needs.notify-build-start.outputs.version }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - uses: Sibz/github-status-action@v1
+      - uses: neoforged/action-github-status@v1
         name: Set build status
         with:
            authToken: ${{ secrets.GITHUB_TOKEN }}
