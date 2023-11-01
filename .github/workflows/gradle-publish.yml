@@ -9,6 +9,11 @@ on:
         required: false
         type: string
         default: "17"
+      version_task:
+        description: "The Gradle task that outputs the version"
+        required: false
+        type: string
+        default: ""
       pre_gradle_tasks:
         description: "The Gradle task(s) to run pre-publication"
         required: false
@@ -38,28 +43,63 @@ on:
       GPG_KEY_PASSWORD:
         required: false
 
+      GPP_KEY:
+        required: false
+      GPP_SECRET:
+        required: false
+
 permissions:
   contents: read
   statuses: write
 
 jobs:
-  notify-build-start:
-    name: Build notifications (start)
+  compute-version:
+    name: Compute version
     runs-on: ubuntu-latest
     outputs:
-      version: ${{ steps.version.outputs.version }}
+      version: ${{ inputs.version_task && steps.gradle.outputs.version || steps.version.outputs.version }}
     steps:
       - uses: neoforged/action-tag-versioning@v1
         name: Calculate version
         id: version
+        if: ${{ !inputs.version_task }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - uses: actions/checkout@v4
+        if: inputs.version_task
+        with:
+          fetch-depth: 1000
+          fetch-tags: true
+
+      - name: Make Gradle executable
+        # language=bash
+        run: chmod +x ./gradlew # Thanks Windows
+        if: inputs.version_task
+
+      - name: Setup Java ${{ inputs.java }}
+        if: inputs.version_task
+        # https://github.com/actions/runner-images/blob/main/images/linux/Ubuntu2204-Readme.md#java
+        # language=bash
+        run: export JAVA_HOME=$(echo $JAVA_HOME_${{ inputs.java }}_X64)
+
+      - name: Gradle version task
+        uses: gradle/gradle-build-action@v2
+        if: inputs.version_task
+        id: gradle
+        with:
+          arguments: ${{ inputs.version_task }}
+
+  notify-build-start:
+    needs: ["compute-version"]
+    name: Build notifications (start)
+    runs-on: ubuntu-latest
+    steps:
       - uses: neoforged/action-webhooks@v1
         name: Send Discord start notification
         with:
           webhook_url: ${{ secrets.DISCORD_WEBHOOK }}
           status: 'started'
-          version: ${{ steps.version.outputs.version }}
+          version: ${{ needs.compute-version.outputs.version }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - uses: neoforged/action-github-status@v1
@@ -68,10 +108,11 @@ jobs:
            authToken: ${{secrets.GITHUB_TOKEN}}
            context: 'Publishing'
            state: 'pending'
-           description: "Version: ${{ steps.version.outputs.version }}"
+           description: "Version: ${{ needs.compute-version.outputs.version }}"
            target_url: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
 
   gradle:
+    needs: ["compute-version"] # Make sure we now the version before starting to build
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -105,10 +146,12 @@ jobs:
           GPG_KEY_PASSWORD: ${{ secrets.GPG_KEY_PASSWORD }}
           SONATYPE_USER: ${{ secrets.SONATYPE_USER }}
           SONATYPE_PASSWORD: ${{ secrets.SONATYPE_PASSWORD }}
+          GPP_KEY: ${{ secrets.GPP_KEY }}
+          GPP_SECRET: ${{ secrets.GPP_SECRET }}
 
   notify-build-end:
     name: Build notifications (end)
-    needs: [ "notify-build-start", "gradle" ]
+    needs: [ "compute-version", "notify-build-start", "gradle" ]
     if: ${{ always() }}
     runs-on: ubuntu-latest
     steps:
@@ -117,7 +160,7 @@ jobs:
         with:
           webhook_url: ${{ secrets.DISCORD_WEBHOOK }}
           status: ${{ needs.gradle.result }}
-          version: ${{ needs.notify-build-start.outputs.version }}
+          version: ${{ needs.compute-version.outputs.version }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - uses: neoforged/action-github-status@v1
@@ -126,5 +169,5 @@ jobs:
            authToken: ${{ secrets.GITHUB_TOKEN }}
            context: 'Publishing'
            state: ${{ needs.gradle.result }}
-           description: "Version: ${{ needs.notify-build-start.outputs.version }}"
+           description: "Version: ${{ needs.compute-version.outputs.version }}"
            target_url: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
