@@ -32,7 +32,7 @@ class OrgRepos {
         private String org, name;
 
         public void addRepo(GHRepository repository) throws IOException {
-                root().createRequest()
+                root.createRequest()
                         .withUrlPath("/orgs/" + org + "/actions/secrets/" + name + "/repositories")
                         .method("PUT")
                         .inBody()
@@ -44,7 +44,7 @@ class OrgRepos {
         }
 
         public void removeRepo(GHRepository repository) throws IOException {
-                root().createRequest()
+                root.createRequest()
                         .withUrlPath("/orgs/" + org + "/actions/secrets/" + name + "/repositories")
                         .method("PUT")
                         .inBody()
