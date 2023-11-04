@@ -1,0 +1,39 @@
+name: Build and test PRs
+
+on:
+    workflow_call:
+      inputs:
+        java:
+            description: "The version of Java to use to run Gradle" # Note: Gradle's Java toolchains feature is used for compiling, which is separate from this
+            required: false
+            type: string
+            default: "17"
+        gradle_tasks:
+            description: "The Gradle task(s) to run"
+            required: false
+            type: string
+            default: "build"
+
+jobs:
+    build:
+      runs-on: ubuntu-latest
+      steps:
+        - name: Checkout repository
+          uses: actions/checkout@v4
+          with:
+            fetch-depth: 1000
+            fetch-tags: true
+
+        - name: Make Gradlew executable
+          # language=bash
+          run: chmod +x ./gradlew # Thanks Windows
+
+        - name: Setup Java ${{ inputs.java }}
+          # https://github.com/actions/runner-images/blob/main/images/linux/Ubuntu2204-Readme.md#java
+          # language=bash
+          run: export JAVA_HOME=$(echo $JAVA_HOME_${{ inputs.java }}_X64)
+
+        - name: Build with Gradle
+          uses: gradle/gradle-build-action@v2
+          with:
+            arguments: ${{ inputs.gradle_tasks }}
