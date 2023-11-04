@@ -22,7 +22,7 @@ public static OrgRepos getOrgSecret(GitHub gitHub, String org, String secret) th
         return sec;
 }
 
-public static class OrgRepos extends GitHubInteractiveObject {
+class OrgRepos extends GitHubInteractiveObject {
         public List<GHRepository> repositories;
 
         private String org, name;
