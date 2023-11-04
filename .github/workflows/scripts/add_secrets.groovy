@@ -54,13 +54,13 @@ public static class OrgRepos extends GitHubInteractiveObject {
 
 private static void addToSecret(GitHub gitHub, GHRepository target, String... secrets) throws IOException {
         for (String secret : secrets) {
-            GitHubAccessor.getOrSecret(gitHub, target.getOwnerName(), secret).addRepo(target);
+            getOrgSecret(gitHub, target.getOwnerName(), secret).addRepo(target);
         }
 }
 
 private static void removeSecrets(GitHub gitHub, GHRepository target, String... secrets) throws IOException {
         for (String secret : secrets) {
-            GitHubAccessor.getOrSecret(gitHub, target.getOwnerName(), secret).removeRepo(target);
+            getOrgSecret(gitHub, target.getOwnerName(), secret).removeRepo(target);
         }
 }
 
