@@ -19,10 +19,14 @@ public static OrgRepos getOrgSecret(GitHub gitHub, String org, String secret) th
                 .fetch(OrgRepos.class);
         sec.org = org;
         sec.name = secret;
+        sec.root = gitHub;
         return sec;
 }
 
-class OrgRepos extends GitHubInteractiveObject {
+class OrgRepos {
+        @com.fasterxml.jackson.annotation.JacksonInject
+        private transient GitHub root;
+
         public List<GHRepository> repositories;
 
         private String org, name;
