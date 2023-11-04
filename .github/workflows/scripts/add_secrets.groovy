@@ -68,8 +68,8 @@ private static void removeSecrets(GitHub gitHub, GHRepository target, String... 
         }
 }
 
-private static void modifySecrets(boolean add, GitHub gh, GHRepository target, String... secrets) throws IOException {
-        if (add) addToSecret(gh, target, secrets)
+private static void modifySecrets(String add, GitHub gh, GHRepository target, String... secrets) throws IOException {
+        if (add == 'true') addToSecret(gh, target, secrets)
         else removeSecrets(gh, target, secrets)
 }
 
