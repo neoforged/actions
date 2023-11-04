@@ -36,7 +36,7 @@ class OrgRepos {
                         .withUrlPath("/orgs/" + org + "/actions/secrets/" + name + "/repositories")
                         .method("PUT")
                         .inBody()
-                        .with("selected_repository_ids", Stream.concat(repositories.stream(), Stream.of(repository))
+                        .with("selected_repository_ids", java.util.Stream.concat(repositories.stream(), java.util.Stream.of(repository))
                                 .map(repo -> repo.getId())
                                 .distinct()
                                 .toList())
