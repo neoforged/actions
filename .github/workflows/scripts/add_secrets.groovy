@@ -1,4 +1,5 @@
 import java.net.URL
+import java.util.stream.Stream
 import org.kohsuke.github.*
 import groovy.json.JsonSlurper
 
@@ -23,6 +24,10 @@ public static OrgRepos getOrgSecret(GitHub gitHub, String org, String secret) th
         return sec;
 }
 
+public static <T> Stream<T> stream(List<T> list, T instance) {
+        return Stream.concat(list.stream(), Stream.of(instance));
+}
+
 class OrgRepos {
         @com.fasterxml.jackson.annotation.JacksonInject
         private transient GitHub root;
@@ -36,7 +41,7 @@ class OrgRepos {
                         .withUrlPath("/orgs/" + org + "/actions/secrets/" + name + "/repositories")
                         .method("PUT")
                         .inBody()
-                        .with("selected_repository_ids", java.util.Stream.concat(repositories.stream(), java.util.Stream.of(repository))
+                        .with("selected_repository_ids", stream(repositories, repository)
                                 .map(repo -> repo.getId())
                                 .distinct()
                                 .toList())
