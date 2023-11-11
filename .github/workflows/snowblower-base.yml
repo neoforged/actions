@@ -20,7 +20,7 @@ jobs:
     name: Check for new Minecraft version
     runs-on: ubuntu-latest
     outputs:
-      is_latest: ${{ steps.version_manifest.outputs.latest_version == steps.github_latest.outputs.latest_version }}
+      is_latest: ${{ steps.check_match.outputs.result }}
     steps:
       - name: Get Version Manifest
         id: version_manifest
@@ -36,6 +36,23 @@ jobs:
         id: github_latest
         run: |
           echo "latest_version=$(wget --header 'Authorization: Bearer ${{ steps.gen_repo_token.outputs.token }}' --header 'Accept: application/json' -O - https://api.github.com/repos/neoforged/snowman/commits/${{ inputs.branch }} | jq -r .commit.message)" >> $GITHUB_OUTPUT
+      - name: Check match
+        id: check_match
+        uses: actions/github-script@v6
+        env:
+          gh: ${{ steps.github_latest.outputs.latest_version }}
+          manifest: ${{ steps.version_manifest.outputs.version }}
+        with:
+          result-encoding: string
+          # language=js
+          script: |
+            'use strict';
+            const { gh, manifest } = process.env
+            
+            console.log(`Latest Minecraft version is: ${manifest}`)
+            console.log(`Latest version pushed to GitHub is: ${gh}`)
+            console.log(`Versions match: ${gh == manifest}`)
+            return gh == manifest
   
   run_blower:
     name: Run SnowBlower
