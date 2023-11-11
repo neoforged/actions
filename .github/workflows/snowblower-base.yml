@@ -81,13 +81,14 @@ jobs:
         timeout-minutes: 300
         run: |
           mkdir sb-output
-          java -jar snowblower.jar --output sb-output --branch ${{ inputs.branch }} --cache .snowblower/caches --github-app-id 436140 --github-installation-repo neoforged/snowman --push --checkout --remote https://github.com/neoforged/snowman.git --start-over-if-required ${{ inputs.snowblower-args }}
+          java -jar snowblower.jar --output sb-output --branch ${{ inputs.branch }} --committer "snow-lance[bot] 150522644+snow-lance[bot]@users.noreply.github.com" --cache .snowblower/caches --github-app-id 436140 --github-installation-repo neoforged/snowman --push --checkout --remote https://github.com/neoforged/snowman.git --partial-cache --start-over-if-required -Xmx6G ${{ inputs.snowblower-args }}
         env:
           GITHUB_APP_KEY: ${{ secrets.SNOWLANCE_PRIVATE_KEY }}
 
       - name: Save caches
         id: cache-save
         uses: actions/cache/save@v3
+        if: always()
         with:
           path: |
             .snowblower/caches

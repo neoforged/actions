@@ -2,8 +2,8 @@ name: Run latest snowblower
 
 on:
   workflow_dispatch:
-  schedule:
-    - cron: '30 * * * *'
+  #schedule:
+  #  - cron: '30 * * * *'
 
 jobs:
   run:
@@ -14,7 +14,7 @@ jobs:
     with:
       mc-channel: release
       branch: release
-      snowblower-version: 2.0.8
+      snowblower-version: 2.0.9
       snowblower-args: --releases-only
     secrets:
       SNOWLANCE_PRIVATE_KEY: ${{ secrets.SNOWLANCE_PRIVATE_KEY }}
