@@ -60,10 +60,11 @@ jobs:
     needs: ["check-mc-version"]
     if: needs.check-mc-version.outputs.is_outdated
     steps:
-      - name: Setup Java
-        # https://github.com/actions/runner-images/blob/main/images/linux/Ubuntu2204-Readme.md#java
-        # language=bash
-        run: echo "JAVA_HOME=$(echo $JAVA_HOME_${{ inputs.java }}_X64)" >> "$GITHUB_ENV"
+      - uses: actions/setup-java@v3
+        name: Setup Java
+        with:
+          distribution: 'zulu' # See 'Supported distributions' for available options
+          java-version: '17'
 
       - name: Download SnowBlower
         run: wget https://maven.neoforged.net/releases/net/neoforged/snowblower/${{ inputs.snowblower-version }}/snowblower-${{ inputs.snowblower-version }}-all.jar -O snowblower.jar
