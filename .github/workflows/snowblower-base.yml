@@ -20,7 +20,7 @@ jobs:
     name: Check for new Minecraft version
     runs-on: ubuntu-latest
     outputs:
-      is_latest: ${{ steps.check_match.outputs.result }}
+      is_outdated: ${{ steps.check_match.outputs.result }}
     steps:
       - name: Get Version Manifest
         id: version_manifest
@@ -52,13 +52,13 @@ jobs:
             console.log(`Latest Minecraft version is: ${manifest}`)
             console.log(`Latest version pushed to GitHub is: ${gh}`)
             console.log(`Versions match: ${gh == manifest}`)
-            return gh == manifest
+            return gh != manifest
   
   run_blower:
     name: Run SnowBlower
     runs-on: ubuntu-latest
     needs: ["check-mc-version"]
-    if: ${{ !needs.check-mc-version.outputs.is_latest }}
+    if: needs.check-mc-version.outputs.is_outdated
     steps:
       - name: Setup Java
         # https://github.com/actions/runner-images/blob/main/images/linux/Ubuntu2204-Readme.md#java
