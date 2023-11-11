@@ -63,7 +63,7 @@ jobs:
       - name: Setup Java
         # https://github.com/actions/runner-images/blob/main/images/linux/Ubuntu2204-Readme.md#java
         # language=bash
-        run: export JAVA_HOME=$(echo $JAVA_HOME_17_X64)
+        run: echo "JAVA_HOME=$(echo $JAVA_HOME_${{ inputs.java }}_X64)" >> "$GITHUB_ENV"
 
       - name: Download SnowBlower
         run: wget https://maven.neoforged.net/releases/net/neoforged/snowblower/${{ inputs.snowblower-version }}/snowblower-${{ inputs.snowblower-version }}-all.jar -O snowblower.jar
