@@ -1,0 +1,20 @@
+name: Run latest snowblower
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '30 * * * *'
+
+jobs:
+  run:
+    uses: neoforged/actions/.github/workflows/snowblower-base.yml@main
+    concurrency:
+      group: snowman-releases
+      cancel-in-progress: false
+    with:
+      mc-channel: release
+      branch: release
+      snowblower-version: 2.0.7
+      snowblower-args: --releases-only
+    secrets:
+      SNOWLANCE_PRIVATE_KEY: ${{ secrets.SNOWLANCE_PRIVATE_KEY }}

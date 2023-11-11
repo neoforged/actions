@@ -1,0 +1,76 @@
+name: Run Snowblower
+
+on:
+  workflow_call:
+    inputs:
+      mc-channel:
+        type: string
+      branch:
+        type: string
+      snowblower-version:
+        type: string
+      snowblower-args:
+        type: string
+    secrets:
+      SNOWLANCE_PRIVATE_KEY:
+        required: true
+
+jobs:
+  check-mc-version:
+    name: Check for new Minecraft version
+    runs-on: ubuntu-latest
+    outputs:
+      is_latest: ${{ steps.version_manifest.outputs.latest_version == steps.github_latest.outputs.latest_version }}
+    steps:
+      - name: Get Version Manifest
+        id: version_manifest
+        run: echo "latest_version=$(wget -O - https://piston-meta.mojang.com/mc/game/version_manifest_v2.json | jq -r .latest.${{ inputs.mc-channel }})" >> $GITHUB_OUTPUT
+      - name: Generate an Application repository access token
+        id: gen_repo_token
+        uses: kattecon/gh-app-access-token-gen@v1
+        with:
+          app_id: 436140
+          private_key: ${{ secrets.SNOWLANCE_PRIVATE_KEY }}
+          repository: neoforged/snowman
+      - name: Get latest branch commit
+        id: github_latest
+        run: |
+          echo "latest_version=$(wget --header 'Authorization: Bearer ${{ steps.gen_repo_token.outputs.token }}' -O - https://api.github.com/repos/neoforged/snowman/commits/${{ inputs.branch }} | jq -r .commit.message)" >> $GITHUB_OUTPUT
+  
+  run_blower:
+    name: Run SnowBlower
+    runs-on: ubuntu-latest
+    needs: ["check-mc-version"]
+    if: ${{ !needs.check-mc-version.outputs.is_latest }}
+    steps:
+      - name: Setup Java
+        # https://github.com/actions/runner-images/blob/main/images/linux/Ubuntu2204-Readme.md#java
+        # language=bash
+        run: export JAVA_HOME=$(echo $JAVA_HOME_17_X64)
+
+      - name: Download SnowBlower
+        run: wget https://maven.neoforged.net/releases/net/neoforged/snowblower/${{ inputs.snowblower-version }}/snowblower-${{ inputs.snowblower-version }}-all.jar -O snowblower.jar
+      
+      - name: Restore caches
+        id: cache-restore
+        uses: actions/cache/restore@v3
+        with:
+          path: |
+            .snowblower/caches
+          key: ${{ runner.os }}-${{ inputs.branch }}-sbcache
+
+      - name: Run snowblower
+        timeout-minutes: 300
+        run: |
+          mkdir sb-output
+          java -jar snowblower.jar --output sb-output --branch ${{ inputs.branch }} --cache .snowblower/caches --github-app-id 436140 --github-installation-repo neoforged/snowman --push --checkout --remote https://github.com/neoforged/snowman.git --start-over-if-required ${{ inputs.snowblower-args }}
+        env:
+          GITHUB_APP_KEY: ${{ secrets.SNOWLANCE_PRIVATE_KEY }}
+
+      - name: Save caches
+        id: cache-save
+        uses: actions/cache/save@v3
+        with:
+          path: |
+            .snowblower/caches
+          key: ${{ steps.cache-restore.outputs.cache-primary-key }}
