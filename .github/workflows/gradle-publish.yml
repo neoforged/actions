@@ -153,7 +153,7 @@ jobs:
           GPG_KEY_PASSWORD: ${{ secrets.GPG_KEY_PASSWORD }}
           GPG_SUBKEY: ${{ secrets.GPG_SUBKEY }}
           GPG_SUBKEY_ID: ${{ secrets.GPG_SUBKEY_ID }}
-          GPG_SUBKEY_PASSWORD: ${{ secrets.GPG_SUBKEY }}
+          GPG_SUBKEY_PASSWORD: ${{ secrets.GPG_SUBKEY_PASSWORD }}
           SONATYPE_USER: ${{ secrets.SONATYPE_USER }}
           SONATYPE_PASSWORD: ${{ secrets.SONATYPE_PASSWORD }}
           GPP_KEY: ${{ secrets.GPP_KEY }}
