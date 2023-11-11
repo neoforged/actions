@@ -35,7 +35,7 @@ jobs:
       - name: Get latest branch commit
         id: github_latest
         run: |
-          echo "latest_version=$(wget --header 'Authorization: Bearer ${{ steps.gen_repo_token.outputs.token }}' --header 'Content-Type: application/json' -O - https://api.github.com/repos/neoforged/snowman/commits/${{ inputs.branch }} | jq -r .commit.message)" >> $GITHUB_OUTPUT
+          echo "latest_version=$(wget --header 'Authorization: Bearer ${{ steps.gen_repo_token.outputs.token }}' --header 'Accept: application/json' -O - https://api.github.com/repos/neoforged/snowman/commits/${{ inputs.branch }} | jq -r .commit.message)" >> $GITHUB_OUTPUT
   
   run_blower:
     name: Run SnowBlower
