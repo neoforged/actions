@@ -31,7 +31,7 @@ jobs:
             app_id: 436140
             private_key: ${{ secrets.SNOWLANCE_PRIVATE_KEY }}
             repository: neoforged/kits
-            
+
       - name: Checkout repository
         uses: actions/checkout@main
         with:
@@ -88,10 +88,14 @@ jobs:
           git add --force projects/base/src
           git add --force projects/neoforge/src
           git commit -m "MC Sources ${{ inputs.mc_version }}"
+      - name: Push sources
+        run: |
+          git push origin
+          
       - name: Commit Rejects
         run: |
           git add --force *.patch.rej
           git commit --allow-empty -m "Rejects"
-      - name: Push
+      - name: Push rejects
         run: |
           git push origin
