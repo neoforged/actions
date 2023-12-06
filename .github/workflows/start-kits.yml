@@ -1,0 +1,97 @@
+name: Start a new branch on kits
+ 
+on:
+  workflow_dispatch:
+    inputs:
+        upstream_branch:
+          type: string
+          description: 'The upstream branch to base the changes off of'
+        mc_version:
+          type: string
+          description: 'The MC version to start the kits branch for'
+          required: true
+        neoform_version:
+          type: string
+          description: 'The neoform version'
+          required: true
+        
+jobs:
+  webhook:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Setup Groovy
+        uses: wtfjoke/setup-groovy@v1
+        with:
+          groovy-version: '4.x'
+
+      - name: Generate an Application repository access token
+        id: gen_repo_token
+        uses: kattecon/gh-app-access-token-gen@v1
+        with:
+            app_id: 436140
+            private_key: ${{ secrets.SNOWLANCE_PRIVATE_KEY }}
+            repository: neoforged/kits
+            
+      - name: Checkout repository
+        uses: actions/checkout@main
+        with:
+          repository: neoforged/kits
+          token: ${{ steps.gen_repo_token.outputs.token }}
+          fetch-depth: 1000
+          fetch-tags: true
+      
+      - name: Configure git
+        run: |
+          git config --global user.name "snow-lance[bot]"
+          git config --global user.email "150522644+snow-lance[bot]@users.noreply.github.com"
+
+      - name: Add and fetch upstream
+        run: |
+          git remote add upstream https://github.com/neoforged/neoforge
+          git fetch upstream ${{ inputs.upstream_branch }}
+          git fetch --tags upstream
+          git switch -c ${{ inputs.mc_version }} upstream/${{ inputs.upstream_branch }}
+
+      - name: Build initially with Gradle
+        uses: gradle/gradle-build-action@v2
+        with:
+            arguments: setup
+
+      - name: Commit initial
+        run: |
+          git add --force projects/base/src
+          git add --force projects/neoforge/src
+          git commit -m "Initial base"
+          git push origin +${{ inputs.mc_version }}:${{ inputs.mc_version }}
+
+      - name: Update versions
+        run: |
+          sed -i -E "s/minecraft_version=.+/minecraft_version=${{ inputs.mc_version }}/g" gradle.properties
+          sed -i -E "s/neoform_version=.+/neoform_version=${{ inputs.neoform_version }}/g" gradle.properties
+
+      - name: Commit version update
+        run: |
+          git add gradle.properties
+          git commit -m "Update versions"
+
+      - name: Make Gradlew executable
+        # language=bash
+        run: chmod +x ./gradlew # Thanks Windows
+
+      - name: Build with Gradle
+        uses: gradle/gradle-build-action@v2
+        with:
+          arguments: setup -Pupdating=true
+      
+      - name: Commit MC Sources
+        run: |
+          git add --force projects/base/src
+          git add --force projects/neoforge/src
+          git commit -m "MC Sources ${{ inputs.mc_version }}"
+      - name: Commit Rejects
+        run: |
+          git add --force *.patch.rej
+          git commit --allow-empty -m "Rejects"
+      - name: Push
+        run: |
+          git push origin
