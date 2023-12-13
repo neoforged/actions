@@ -24,6 +24,11 @@ on:
         required: false
         type: string
         default: "publish"
+      version_labels:
+        description: "Optional configuration for version labels"
+        required: false
+        type: "string"
+        default: ""
     secrets:
       DISCORD_WEBHOOK:
         required: true
@@ -72,6 +77,8 @@ jobs:
         if: ${{ !inputs.version_task }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          labels: ${{ inputs.version_labels }}
       - uses: actions/checkout@v4
         if: inputs.version_task
         with:
