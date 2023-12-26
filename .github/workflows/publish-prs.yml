@@ -1,0 +1,47 @@
+name: 'Publish PRs to GitHub Packages'
+
+on:
+  workflow_call:
+    inputs:
+      artifact_base_path:
+        type: string
+        required: true
+        description: 'The base path (using / as folder separations) of the artifacts published by the PR. Artifacts not in this path will not be accepted'
+      uploader_workflow_name:
+        type: string
+        required: false
+        default: 'Build and test PRs'
+        description: 'The name of the workflow uploading PR artifacts'
+    
+    secrets:
+      PR_PUBLISHING_GH_APP_ID:
+        required: true
+      PR_PUBLISHING_GH_APP_KEY:
+        required: true
+
+permissions:
+  # For the check run that publishes the status of the publish
+  checks: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Generate an Application repository access token
+        id: gen_repo_token
+        uses: kattecon/gh-app-access-token-gen@v1
+        with:
+          app_id: ${{ secrets.PR_PUBLISHING_GH_APP_ID }}
+          private_key: ${{ secrets.PR_PUBLISHING_GH_APP_KEY }}
+          repository: ${{ github.repository }}
+      - name: Publish PR
+        uses: neoforged/action-pr-publishing@v1
+        env:
+          # The main app that comments, edits comments and publishes check runs should be our GH APP
+          # The GitHub provided app token will be used to publish the artifacts to Packages
+          GITHUB_TOKEN: ${{ steps.gen_repo_token.outputs.token }}
+        with:
+          publishing-token: ${{ github.token }}
+          uploader-workflow-name: ${{ inputs.uploader_workflow_name }}
+          artifacts-base-path: ${{ inputs.artifact_base_path }}
+          self-name: 'neoforged-pr-publishing[bot]'

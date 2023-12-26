@@ -43,3 +43,7 @@ jobs:
           uses: gradle/gradle-build-action@v2
           with:
             arguments: ${{ inputs.gradle_tasks }}
+
+        # TODO - in the future some projects may need to override settings of this step
+        - name: Publish artifacts
+          uses: neoforged/action-pr-publishing/upload@v1
