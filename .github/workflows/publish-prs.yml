@@ -20,8 +20,8 @@ on:
         required: true
 
 permissions:
-  # For the check run that publishes the status of the publish
-  checks: write
+  # Use the default token for publishing packages
+  packages: write
 
 jobs:
   publish:
