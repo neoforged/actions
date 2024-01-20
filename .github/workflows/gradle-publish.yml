@@ -94,7 +94,8 @@ jobs:
         if: inputs.version_task
         # https://github.com/actions/runner-images/blob/main/images/linux/Ubuntu2204-Readme.md#java
         # language=bash
-        run: export JAVA_HOME=$(echo $JAVA_HOME_${{ inputs.java }}_X64)
+        run: |
+          echo "JAVA_HOME=$(echo $JAVA_HOME_${{ inputs.java }}_X64)" >> "$GITHUB_ENV"
 
       - name: Gradle version task
         uses: gradle/gradle-build-action@v2
@@ -141,7 +142,8 @@ jobs:
       - name: Setup Java ${{ inputs.java }}
         # https://github.com/actions/runner-images/blob/main/images/linux/Ubuntu2204-Readme.md#java
         # language=bash
-        run: export JAVA_HOME=$(echo $JAVA_HOME_${{ inputs.java }}_X64)
+        run: |
+          echo "JAVA_HOME=$(echo $JAVA_HOME_${{ inputs.java }}_X64)" >> "$GITHUB_ENV"
 
       - name: Gradle pre-publication tasks
         uses: gradle/gradle-build-action@v2
