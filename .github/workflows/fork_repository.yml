@@ -37,12 +37,16 @@ jobs:
         app_id: 376723
         private_key: ${{ secrets.APPLICATION_KEY }}
         repository: neoforged/${{ github.event.inputs.fork_name }}
+
+    - name: Check out repository
+      uses: actions/checkout@v2
+      with:
+        fetch-depth: 0
+        token: ${{ steps.gen_token.outputs.token }}
+        repository: ${{ github.event.inputs.to_fork }}
  
     - name: Set origin
       run: |
-        git remote add origin https://github.com/${{ github.event.inputs.to_fork }}.git
-        git branch -r | grep -v '\->' | sed "s,\x1B\[[0-9;]*[a-zA-Z],,g" | while read remote; do git branch --track "${remote#origin/}" "$remote"; done
-
         git remote rm origin
         git remote add origin https://automation:${{ steps.gen_repo_token.outputs.token }}@github.com/NeoForged/${{ github.event.inputs.fork_name }}.git
 
