@@ -13,6 +13,11 @@ on:
             required: false
             type: string
             default: "build"
+        jar_compatibility:
+            description: "If JCC tasks should be run"
+            required: false
+            type: boolean
+            default: false
 
 jobs:
     build:
@@ -44,6 +49,17 @@ jobs:
           uses: gradle/gradle-build-action@v2
           with:
             arguments: ${{ inputs.gradle_tasks }}
+        
+        - name: Run JCC
+          uses: gradle/gradle-build-action@v2
+          if: inputs.jar_compatibility
+          with:
+            arguments: checkJarCompatibility
+            cache-read-only: false
+
+        - name: Upload JCC
+          uses: neoforged/action-jar-compatibility/upload@v1
+          if: inputs.jar_compatibility
 
         # TODO - in the future some projects may need to override settings of this step
         - name: Publish artifacts
