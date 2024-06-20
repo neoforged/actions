@@ -45,6 +45,10 @@ jobs:
               uses: OleksiyRudenko/gha-git-credentials@v2.1.1
               with:
                 token: ${{ steps.gen_downstream_token.outputs.token }}
+                global: true
+                name: 'NeoForge MDK Automation'
+                email: '173375039+neoforge-mdk-automation[bot]@users.noreply.github.com'
+                actor: 'neoforge-mdk-automation[bot]'
             - name: Push to downstream
               run: |
                 git remote add downstream https://github.com/${{ github.event.inputs.repository }}.git
