@@ -47,5 +47,5 @@ jobs:
                 token: ${{ steps.gen_downstream_token.outputs.token }}
             - name: Push to downstream
               run: |
-                git remote add downstream https://${{ github.event.inputs.repository }}.git
+                git remote add downstream https://github.com/${{ github.event.inputs.repository }}.git
                 git push --force -u downstream ${{ github.event.inputs.branch }}:main
