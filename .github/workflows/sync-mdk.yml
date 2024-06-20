@@ -43,7 +43,7 @@ jobs:
                   private_key: ${{ secrets.MDKS_APPLICATION_KEY }}
                   repository: ${{ github.event.inputs.repository }}
             - name: Update git credentials
-              uses: OleksiyRudenko/gha-git-credentials@v2.1.1
+              uses: OleksiyRudenko/gha-git-credentials@v2.1.2
               with:
                 token: ${{ steps.gen_downstream_token.outputs.token }}
                 global: true
