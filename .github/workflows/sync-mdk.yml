@@ -34,6 +34,7 @@ jobs:
                 token: ${{ steps.gen_upstream_token.outputs.token }}
                 ref: ${{ github.event.inputs.branch }}
                 fetch-depth: 0
+                persist-credentials: false
             - name: Generate a token for downstream
               id: gen_downstream_token
               uses: kattecon/gh-app-access-token-gen@v1
