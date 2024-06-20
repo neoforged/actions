@@ -1,0 +1,51 @@
+name: Sync MDK repository
+
+on:
+  workflow_dispatch:
+    inputs:
+      repository:
+        type: string
+        description: 'The URL of the repository'
+        required: true
+      upstream_repo:
+        type: string
+        description: 'The location of the upstream repository'
+        required: true
+      branch:
+        type: string
+        description: 'The upstream branch to check out'
+        required: true
+
+jobs:
+    sync:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Generate a token for upstream
+              id: gen_upstream_token
+              uses: kattecon/gh-app-access-token-gen@v1
+              with:
+                app_id: 376723
+                private_key: ${{ secrets.APPLICATION_KEY }}
+                repository: ${{ github.event.inputs.upstream_repo }}
+            - name: Checkout upstream
+              uses: actions/checkout@v4
+              with:
+                repository: ${{ github.event.inputs.upstream_repo }}
+                token: ${{ steps.gen_upstream_token.outputs.token }}
+                ref: ${{ github.event.inputs.branch }}
+                persist-credentials: false
+            - name: Generate a token for downstream
+              id: gen_downstream_token
+              uses: kattecon/gh-app-access-token-gen@v1
+              with:
+                  app_id: 926135
+                  private_key: ${{ secrets.MDKS_APPLICATION_KEY }}
+                  repository: ${{ github.event.inputs.repository }}
+            - name: Update git credentials
+              uses: OleksiyRudenko/gha-git-credentials@v2.1.1
+              with:
+                token: ${{ steps.gen_downstream_token.outputs.token }}
+            - name: Push to downstream
+              run: |
+                git origin add downstream ${{ github.event.inputs.repository }}.git
+                git push --force -u downstream ${{ github.event.inputs.branch }}:main
