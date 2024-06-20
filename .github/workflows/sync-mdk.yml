@@ -33,7 +33,7 @@ jobs:
                 repository: ${{ github.event.inputs.upstream_repo }}
                 token: ${{ steps.gen_upstream_token.outputs.token }}
                 ref: ${{ github.event.inputs.branch }}
-                persist-credentials: false
+                fetch-depth: 0
             - name: Generate a token for downstream
               id: gen_downstream_token
               uses: kattecon/gh-app-access-token-gen@v1
@@ -51,5 +51,7 @@ jobs:
                 actor: 'neoforge-mdk-automation[bot]'
             - name: Push to downstream
               run: |
+                git checkout ${{ github.event.inputs.branch }}
+                git remote remove origin
                 git remote add downstream https://neoforge-mdk-automation[bot]:${{ steps.gen_downstream_token.outputs.token }}@github.com/${{ github.event.inputs.repository }}.git
                 git push --force -u downstream ${{ github.event.inputs.branch }}:main
