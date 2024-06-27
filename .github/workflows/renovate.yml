@@ -42,6 +42,7 @@ jobs:
               with:
                 path: /tmp/renovatecaches
                 key: renovate-caches
+                save-always: true
             - run: sudo chown -R 1000 /tmp/renovatecaches
             - name: Self-hosted Renovate
               uses: renovatebot/github-action@v40.1.12
