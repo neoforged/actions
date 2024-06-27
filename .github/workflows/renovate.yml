@@ -40,7 +40,7 @@ jobs:
             - name: Cache Renovate cache dir
               uses: actions/cache@v4
               with:
-                path: renovatecaches
+                path: /tmp/renovatecaches
                 key: renovate-caches
             - name: Self-hosted Renovate
               uses: renovatebot/github-action@v40.1.12
