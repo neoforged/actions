@@ -3,9 +3,9 @@ name: Run Renovate
 on:
   workflow_dispatch:
     inputs:
-      repository:
+      repositories:
         type: string
-        description: 'The repository to run renovate against'
+        description: 'The repositories to run renovate against'
         required: true
       logLevel:
         description: "Override default log level"
@@ -25,7 +25,7 @@ jobs:
     renovate:
         runs-on: ubuntu-latest
         steps:
-            - name: Generate a token for the repository
+            - name: Generate a token for the org
               id: gen_repo_token
               uses: kattecon/gh-app-access-token-gen@v1
               with:
@@ -41,7 +41,7 @@ jobs:
               uses: renovatebot/github-action@v40.1.12
               env:
                   # Repository taken from variable to keep configuration file generic
-                  RENOVATE_REPOSITORIES: ${{ github.event.inputs.repository }}
+                  RENOVATE_REPOSITORIES: ${{ github.event.inputs.repositories }}
                   # Onboarding not needed for self hosted (for now)
                   RENOVATE_ONBOARDING: "true"
                   # Username for GitHub authentication (should match GitHub App name + [bot])
