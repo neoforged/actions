@@ -1,0 +1,61 @@
+name: Run Renovate
+
+on:
+  workflow_dispatch:
+    inputs:
+      repository:
+        type: string
+        description: 'The repository to run renovate against'
+        required: true
+      logLevel:
+        description: "Override default log level"
+        required: false
+        default: "info"
+        type: string
+      overrideSchedule:
+        description: "Override all schedules"
+        required: false
+        default: "false"
+        type: string
+
+concurrency:
+    group: renovate
+
+jobs:
+    renovate:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Generate a token for the repository
+              id: gen_repo_token
+              uses: kattecon/gh-app-access-token-gen@v1
+              with:
+                app_id: 931948
+                private_key: ${{ secrets.RENOVATE_APPLICATION_KEY }}
+                repository: ${{ github.event.inputs.repository }}
+            - name: Checkout upstream
+              uses: actions/checkout@v4
+              with:
+                repository: ${{ github.event.inputs.repository }}
+                token: ${{ steps.gen_repo_token.outputs.token }}
+                fetch-depth: 0
+                persist-credentials: false
+            - name: Self-hosted Renovate
+              uses: renovatebot/github-action@v40.1.12
+              env:
+                  # Repository taken from variable to keep configuration file generic
+                  RENOVATE_REPOSITORIES: ${{ github.event.inputs.repository }}
+                  # Onboarding not needed for self hosted (for now)
+                  RENOVATE_ONBOARDING: "true"
+                  # Username for GitHub authentication (should match GitHub App name + [bot])
+                  RENOVATE_USERNAME: "neoforged-renovate[bot]"
+                  # Git commit author used, must match GitHub App
+                  RENOVATE_GIT_AUTHOR: "neoforged-renovate <931948+neoforged-renovate[bot]@users.noreply.github.com>"
+                  # Use GitHub API to create commits (this allows for signed commits from GitHub App)
+                  RENOVATE_PLATFORM_COMMIT: "true"
+                  # Override schedule if set
+                  RENOVATE_FORCE: ${{ github.event.inputs.overrideSchedule == 'true' && '{''schedule'':null}' || '' }}
+                  LOG_LEVEL: ${{ github.event.inputs.logLevel || 'info' }}
+              with:
+                  configurationFile: .github/renovate.json
+                  token: '${{ steps.gen_repo_token.outputs.token }}'
+        
