@@ -2,7 +2,7 @@
     "$schema": "https://docs.renovatebot.com/renovate-schema.json",
     "onboardingConfig": {
         "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-        "extends": ["github>neoforged/actions:renovate"]
+        "extends": ["github>neoforged/actions:renovate_preset"]
     },
     "onboardingConfigFileName": ".github/renovate.json",
     "repositoryCache": "enabled",
