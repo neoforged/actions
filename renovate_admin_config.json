@@ -4,5 +4,7 @@
         "$schema": "https://docs.renovatebot.com/renovate-schema.json",
         "extends": ["github>neoforged/actions:renovate"]
     },
-    "onboardingConfigFileName": ".github/renovate.json"
+    "onboardingConfigFileName": ".github/renovate.json",
+    "repositoryCache": "enabled",
+    "cacheDir": "/renovatecaches"
 }

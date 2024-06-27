@@ -19,7 +19,7 @@ on:
         type: string
 
 concurrency:
-    group: renovate
+    group: renovate-${{ github.event.inputs.repositories }}
 
 jobs:
     renovate:
@@ -37,6 +37,11 @@ jobs:
               with:
                 fetch-depth: 0
                 persist-credentials: false
+            - name: Cache Renovate cache dir
+              uses: actions/cache@v4
+              with:
+                path: /renovatecaches
+                key: renovate-caches
             - name: Self-hosted Renovate
               uses: renovatebot/github-action@v40.1.12
               env:
