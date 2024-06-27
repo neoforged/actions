@@ -39,6 +39,9 @@ jobs:
                 token: ${{ steps.gen_repo_token.outputs.token }}
                 fetch-depth: 0
                 persist-credentials: false
+            - name: Write admin config
+              run: |
+                echo "{}" > .renovate/admin_config.json
             - name: Self-hosted Renovate
               uses: renovatebot/github-action@v40.1.12
               env:
@@ -56,6 +59,6 @@ jobs:
                   RENOVATE_FORCE: ${{ github.event.inputs.overrideSchedule == 'true' && '{''schedule'':null}' || '' }}
                   LOG_LEVEL: ${{ github.event.inputs.logLevel || 'info' }}
               with:
-                  configurationFile: .github/renovate.json
+                  configurationFile: .renovate/admin_config.json
                   token: '${{ steps.gen_repo_token.outputs.token }}'
         
