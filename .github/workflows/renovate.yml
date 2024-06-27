@@ -42,6 +42,7 @@ jobs:
               with:
                 path: /tmp/renovatecaches
                 key: renovate-caches
+            - run: sudo chown -R 1000 /tmp/renovatecaches
             - name: Self-hosted Renovate
               uses: renovatebot/github-action@v40.1.12
               env:
@@ -61,4 +62,5 @@ jobs:
               with:
                   configurationFile: renovate_admin_config.json
                   token: '${{ steps.gen_repo_token.outputs.token }}'
+           - run: sudo chown -R $(whoami) /tmp/renovatecaches
         
