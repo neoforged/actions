@@ -31,7 +31,7 @@ jobs:
               with:
                 app_id: 931948
                 private_key: ${{ secrets.RENOVATE_APPLICATION_KEY }}
-                repository: ${{ github.event.inputs.repository }}
+                installation_id: 52268154
             - name: Checkout upstream
               uses: actions/checkout@v4
               with:
