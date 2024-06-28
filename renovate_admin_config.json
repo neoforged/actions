@@ -14,7 +14,6 @@
         {
           "matchHost": "api.github.com",
           "enableHttp2": true,
-          "keepAlive": true,
           "timeout": 10000
         }
     ]
