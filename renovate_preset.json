@@ -13,6 +13,11 @@
             "matchDatasources": ["maven"],
             "matchPackagePatterns": ["^net\\.neoforged\\."],
             "registryUrls": ["https://maven.neoforged.net/releases"]
+        },
+        {
+            "matchDatasources": ["maven"],
+            "matchPackagePatterns": ["^net\\.fabricmc\\."],
+            "registryUrls": ["https://maven.fabricmc.net"]
         }
     ],
     "presetCachePersistence": true
