@@ -2,5 +2,11 @@
     "$schema": "https://docs.renovatebot.com/renovate-schema.json",
     "addLabels": ["dependencies"],
     "dependencyDashboard": true,
-    "dependencyDashboardApproval": true
+    "dependencyDashboardApproval": true,
+    "packageRules": [
+        {
+          "matchDatasources": ["maven"],
+          "registryUrls": ["https://maven.neoforged.net/releases"]
+        }
+    ]
 }
