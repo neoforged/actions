@@ -17,6 +17,11 @@ on:
         required: false
         default: "false"
         type: string
+      renovateVersion:
+        description: "The version of Renovate to use"
+        required: false
+        default: "37.420-full"
+        type: string
 
 concurrency:
     group: renovate-${{ github.event.inputs.repositories }}
@@ -44,6 +49,10 @@ jobs:
                 key: renovate-${{ github.run_id }}
                 restore-keys: renovate-
                 save-always: true
+            - name: Cache Docker images.
+              uses: ScribeMD/docker-cache@0.5.0
+              with:
+                  key: docker-renovate-${{ runner.os }}-${{ github.event.inputs.renovateVersion }}
             - run: sudo chown -R 1000 /tmp/renovatecaches
             - name: Self-hosted Renovate
               uses: renovatebot/github-action@v40.1.12
@@ -55,7 +64,7 @@ jobs:
                   # Username for GitHub authentication (should match GitHub App name + [bot])
                   RENOVATE_USERNAME: "neoforged-renovate[bot]"
                   # Git commit author used, must match GitHub App
-                  RENOVATE_GIT_AUTHOR: "neoforged-renovate <931948+neoforged-renovate[bot]@users.noreply.github.com>"
+                  RENOVATE_GIT_AUTHOR: "neoforged-renovate[bot] <174042230+neoforged-renovate[bot]@users.noreply.github.com>"
                   # Use GitHub API to create commits (this allows for signed commits from GitHub App)
                   RENOVATE_PLATFORM_COMMIT: "true"
                   # Override schedule if set
@@ -64,5 +73,6 @@ jobs:
               with:
                   configurationFile: renovate_admin_config.json
                   token: '${{ steps.gen_repo_token.outputs.token }}'
+                  renovate-version: ${{ github.event.inputs.renovateVersion }}
             - run: sudo chown -R $(whoami) /tmp/renovatecaches
         
