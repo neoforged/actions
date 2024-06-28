@@ -3,6 +3,7 @@
     "addLabels": ["dependencies"],
     "dependencyDashboard": true,
     "dependencyDashboardApproval": true,
+    "dependencyDashboardLabels": ["dependencies"],
     "onboardingPrTitle": "Configure Renovate [skip ci]",
     "packageRules": [
         {
