@@ -5,6 +5,10 @@
     "dependencyDashboardApproval": true,
     "packageRules": [
         {
+            "matchDatasources": ["maven"],
+            "registryUrls": "https://repo1.maven.org/maven2/"
+        },
+        {
           "matchDatasources": ["maven"],
           "registryUrls": ["https://maven.neoforged.net/releases"]
         }
