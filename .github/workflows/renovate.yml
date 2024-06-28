@@ -42,7 +42,9 @@ jobs:
               with:
                 fetch-depth: 0
                 persist-credentials: false
-            - run: sudo chown -R 1000 /renovatecache
+            - run: |
+                dockerd
+                sudo chown -R 1000 /renovatecache
             - name: Self-hosted Renovate
               uses: renovatebot/github-action@v40.1.12
               env:
@@ -63,5 +65,6 @@ jobs:
                   configurationFile: renovate_admin_config.json
                   token: '${{ steps.gen_repo_token.outputs.token }}'
                   renovate-version: ${{ github.event.inputs.renovateVersion }}
+                  docker-volumes: /renovatecache:/renovatecache
             - run: sudo chown -R $(whoami) /renovatecache
         
