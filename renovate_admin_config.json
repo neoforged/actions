@@ -8,5 +8,5 @@
     "repositoryCache": "enabled",
     "cacheDir": "/renovatecache",
     "dependencyDashboardFooter": "- [ ] Click to force Renovate to run again on this repository", 
-    "keep Alive":true
+    "keepAlive":true
 }
