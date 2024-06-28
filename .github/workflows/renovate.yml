@@ -20,7 +20,7 @@ on:
       renovateVersion:
         description: "The version of Renovate to use"
         required: false
-        default: "37.420-full"
+        default: "37.420"
         type: string
 
 concurrency:
