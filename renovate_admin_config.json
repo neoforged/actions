@@ -9,5 +9,13 @@
     "cacheDir": "/renovatecache",
     "dependencyDashboardFooter": "- [ ] Click to force Renovate to run again on this repository",
     "username": "neoforged-renovate[bot]",
-    "httpCacheTtlDays": 0
+    "httpCacheTtlDays": 0,
+    "hostRules": [
+        {
+          "matchHost": "api.github.com",
+          "enableHttp2": true,
+          "keepAlive": true,
+          "timeout": 10000
+        }
+    ]
 }
