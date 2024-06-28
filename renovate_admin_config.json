@@ -6,6 +6,6 @@
     },
     "onboardingConfigFileName": ".github/renovate.json",
     "repositoryCache": "enabled",
-    "cacheDir": "/tmp/renovatecaches",
+    "cacheDir": "/renovatecache",
     "dependencyDashboardFooter": "- [ ] Click to force Renovate to run again on this repository"
 }

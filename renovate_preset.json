@@ -3,6 +3,7 @@
     "addLabels": ["dependencies"],
     "dependencyDashboard": true,
     "dependencyDashboardApproval": true,
+    "onboardingPrTitle": "Configure Renovate [skip ci]",
     "packageRules": [
         {
             "matchDatasources": ["maven"],
@@ -13,5 +14,6 @@
             "matchPackagePatterns": ["^net\\.neoforged\\."],
             "registryUrls": ["https://maven.neoforged.net/releases"]
         }
-    ]
+    ],
+    "presetCachePersistence": true
 }
