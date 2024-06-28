@@ -43,7 +43,7 @@ jobs:
                 fetch-depth: 0
                 persist-credentials: false
             - run: |
-                dockerd
+                sudo dockerd
                 sudo chown -R 1000 /renovatecache
             - name: Self-hosted Renovate
               uses: renovatebot/github-action@v40.1.12
