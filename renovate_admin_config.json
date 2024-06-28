@@ -7,5 +7,7 @@
     "onboardingConfigFileName": ".github/renovate.json",
     "repositoryCache": "enabled",
     "cacheDir": "/renovatecache",
-    "dependencyDashboardFooter": "- [ ] Click to force Renovate to run again on this repository"
+    "dependencyDashboardFooter": "- [ ] Click to force Renovate to run again on this repository",
+    "username": "neoforged-renovate[bot]",
+    "httpCacheTtlDays": 0
 }
