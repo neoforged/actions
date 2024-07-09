@@ -13,7 +13,7 @@
         },
         {
             "matchDatasources": ["maven"],
-            "matchPackagePatterns": ["^net\\.neoforged\\."],
+            "matchPackagePatterns": ["^net\\.neoforged(\\.|:)"],
             "registryUrls": ["https://maven.neoforged.net/releases"]
         },
         {
