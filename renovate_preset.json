@@ -20,6 +20,10 @@
             "matchDatasources": ["maven"],
             "matchPackagePatterns": ["^net\\.fabricmc\\."],
             "registryUrls": ["https://maven.fabricmc.net"]
+        },
+        {
+            "matchPackagePatterns": ["^net\\.neoforged\\.gradleutils"],
+            "groupName": "gradleutils"
         }
     ],
     "presetCachePersistence": true
