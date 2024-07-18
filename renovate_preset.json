@@ -18,7 +18,7 @@
         },
         {
             "matchDatasources": ["maven"],
-            "matchPackagePatterns": ["^net\\.fabricmc\\."],
+            "matchPackagePatterns": ["^net\\.fabricmc"],
             "registryUrls": ["https://maven.fabricmc.net"]
         },
         {
