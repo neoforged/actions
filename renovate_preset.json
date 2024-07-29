@@ -24,6 +24,10 @@
         {
             "matchPackagePatterns": ["^net\\.neoforged\\.gradleutils"],
             "groupName": "gradleutils"
+        },
+        {
+            "matchPackagePatterns": ["^org\\.ow2\\.asm:asm.*"],
+            "groupName": "asm"
         }
     ],
     "presetCachePersistence": true
