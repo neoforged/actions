@@ -28,6 +28,14 @@
         {
             "matchPackagePatterns": ["^org\\.ow2\\.asm:asm.*"],
             "groupName": "asm"
+        },
+
+
+
+        {
+            "__comment": "Yay for FML going from major 47 back to zero",
+            "matchPackagePatterns": ["^net\\.neoforged.\\fancymodloader:"],
+            "allowedVersions": "!/47\\..+/"
         }
     ],
     "presetCachePersistence": true
