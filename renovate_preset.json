@@ -34,7 +34,7 @@
 
         {
             "__comment": "Yay for FML going from major 47 back to zero",
-            "matchPackagePatterns": ["^net\\.neoforged.\\fancymodloader:"],
+            "matchPackagePatterns": ["^net\\.neoforged\\.fancymodloader:"],
             "allowedVersions": "!/47\\..+/"
         }
     ],
