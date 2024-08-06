@@ -1,0 +1,9 @@
+repositories:
+  neoforged/dummy-testing-pr-publishing:
+    labelLocks:
+      support:
+        lock: true
+        close: true
+        message: |
+          hi?  
+          No support questions.
