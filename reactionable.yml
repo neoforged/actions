@@ -7,3 +7,6 @@ repositories:
         message: |
           hi?  
           No support questions.
+prActions:
+  repository: neoforged/practionrunner
+  workflow: .github/workflows/run_pr.yml@main
