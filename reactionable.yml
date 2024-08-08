@@ -12,3 +12,8 @@ repositories:
 prActions:
   repository: neoforged/practionrunner
   workflow: run_pr.yml@main
+commands:
+  prefixes:
+    - "/"
+  reactToComment: true
+  minimizeComment: true
