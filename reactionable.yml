@@ -8,7 +8,9 @@ repositories:
           hi?  
           No support questions.
   neoforged/neoforge:
-    baseRunCommand: echo "JAVA_HOME=$(echo $JAVA_HOME_21_X64)" >> "$GITHUB_ENV"
+    baseRunCommand: |
+      echo "JAVA_HOME=$(echo $JAVA_HOME_21_X64)" >> "$GITHUB_ENV"
+      ./gradlew :neoforge:setup
     runUploadPattern: src*/main/java/
     labelLocks:
       support:
