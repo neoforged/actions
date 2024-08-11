@@ -7,13 +7,23 @@ repositories:
         message: |
           hi?  
           No support questions.
-    formattingTasks:
-      - echo "screm" >> "src/main/java/Screm.java"
+  neoforged/neoforge:
+    baseRunCommand: echo "JAVA_HOME=$(echo $JAVA_HOME_21_X64)" >> "$GITHUB_ENV"
+    runUploadPattern: src*/main/java/
+    labelLocks:
+      support:
+        lock: true
+        close: true
+        message: |
+          :wave: We use the issue tracker exclusively for final bug reports and feature requests.  
+          However, this issue appears to be better suited for the [NeoForge Discord](https://discord.neoforged.net).  
+          Please ask in the `#user-support` channel in the Discord server, and the conversation can continue there.
 prActions:
   repository: neoforged/practionrunner
   workflow: run_pr.yml@main
 commands:
   prefixes:
     - "/"
+    - "@neoforged/bots "
   reactToComment: true
   minimizeComment: true
