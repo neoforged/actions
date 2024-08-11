@@ -25,7 +25,7 @@ prActions:
   workflow: run_pr.yml@main
 commands:
   prefixes:
-    - "/"
     - "@neoforged/bots "
+    - "/"
   reactToComment: true
   minimizeComment: true
