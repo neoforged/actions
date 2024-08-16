@@ -30,7 +30,16 @@
             "groupName": "asm"
         },
 
-
+        {
+            "matchDatasources": ["gradle-version"],
+            "postUpgradeTasks": {
+                "commands": [
+                  "./gradlew :wrapper"
+                ],
+                "fileFilters": ["gradlew", "gradlew.bat"],
+                "executionMode": "update"
+            }
+        },
 
         {
             "__comment": "Yay for FML going from major 47 back to zero",
