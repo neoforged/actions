@@ -5,6 +5,7 @@
     "dependencyDashboardApproval": true,
     "dependencyDashboardLabels": ["dependencies"],
     "onboardingPrTitle": "Configure Renovate [skip ci]",
+    "onboardingRebaseCheckbox": true,
     "packageRules": [
         {
             "matchDatasources": ["maven"],

@@ -45,7 +45,7 @@ jobs:
                 restore-keys: renovate2-
                 save-always: true
             - run: |
-                mkdir /tmp/renovatecaches
+                mkdir -p /tmp/renovatecaches
                 sudo chown -R 1000 /tmp/renovatecaches
             - name: Self-hosted Renovate
               uses: renovatebot/github-action@v40.1.12
