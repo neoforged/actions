@@ -64,4 +64,5 @@ jobs:
               with:
                   configurationFile: renovate_admin_config.json
                   token: '${{ steps.gen_repo_token.outputs.token }}'
+                  renovate-version: 38.38.1
             - run: sudo chown -R $(whoami) /tmp/renovatecaches
