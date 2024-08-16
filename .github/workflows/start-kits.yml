@@ -24,6 +24,15 @@ jobs:
         with:
           groovy-version: '4.0.18'
 
+      - name: Setup JDK 21
+        uses: actions/setup-java@v2
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v3
+
       - name: Generate an Application repository access token
         id: gen_repo_token
         uses: kattecon/gh-app-access-token-gen@v1
@@ -52,10 +61,8 @@ jobs:
           git fetch --tags upstream
           git switch -c ${{ inputs.mc_version }} upstream/${{ inputs.upstream_branch }}
 
-      - name: Build initially with Gradle
-        uses: gradle/gradle-build-action@v2
-        with:
-            arguments: setup
+      - name: Setup sources with old MC version
+        run: ./gradlew setup
 
       - name: Commit initial
         run: |
@@ -74,15 +81,9 @@ jobs:
           git add gradle.properties
           git commit -m "Update versions"
 
-      - name: Make Gradlew executable
-        # language=bash
-        run: chmod +x ./gradlew # Thanks Windows
+      - name: Setup with new MC version
+        run: ./gradlew setup -Pupdating=true
 
-      - name: Build with Gradle
-        uses: gradle/gradle-build-action@v2
-        with:
-          arguments: setup -Pupdating=true
-      
       - name: Commit MC Sources
         run: |
           git add --force projects/base/src
