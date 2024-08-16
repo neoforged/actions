@@ -17,5 +17,5 @@
           "timeout": 10000
         }
     ],
-    "allowedPostUpgradeCommands": ["^\\./gradlew :wrapper$"]
+    "allowedPostUpgradeCommands": ["^\\./gradlew wrapper$"]
 }

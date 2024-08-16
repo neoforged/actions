@@ -31,12 +31,11 @@
         },
 
         {
-            "matchDatasources": ["gradle-version"],
+            "matchManagers": ["gradle-wrapper"],
             "postUpgradeTasks": {
                 "commands": [
-                  "./gradlew :wrapper"
+                  "./gradlew wrapper"
                 ],
-                "fileFilters": ["gradlew", "gradlew.bat"],
                 "executionMode": "update"
             }
         },
