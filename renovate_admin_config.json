@@ -16,5 +16,6 @@
           "enableHttp2": true,
           "timeout": 10000
         }
-    ]
+    ],
+    "allowedPostUpgradeCommands": ["^\\./gradlew :wrapper$"]
 }
