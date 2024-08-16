@@ -3,7 +3,7 @@
     "extends": ["github>neoforged/actions:renovate_preset"],
     "packageRules": [
         {
-            "matchDepPatterns": ["^org\\.apache\\.commons:"],
+            "matchDepPatterns": ["^org\\.apache\\.commons:", "^org\\.apache\\.logging\\.log4j:"],
             "enabled": false
         }
     ]
