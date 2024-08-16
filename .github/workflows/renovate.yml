@@ -41,8 +41,8 @@ jobs:
               uses: actions/cache@v4
               with:
                 path: /tmp/renovatecaches
-                key: renovate-${{ github.run_id }}
-                restore-keys: renovate-
+                key: renovate2-${{ github.run_id }}
+                restore-keys: renovate2-
                 save-always: true
             - run: sudo chown -R 1000 /tmp/renovatecaches
             - name: Self-hosted Renovate
