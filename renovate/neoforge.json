@@ -3,7 +3,7 @@
     "extends": ["github>neoforged/actions:renovate_preset"],
     "packageRules": [
         {
-            "matchPackagePatterns": ["^org\\.apache\\.commons:"],
+            "matchDepPatterns": ["^org\\.apache\\.commons:"],
             "enabled": false
         }
     ]
