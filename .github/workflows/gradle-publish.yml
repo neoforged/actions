@@ -92,10 +92,9 @@ jobs:
 
       - name: Setup Java ${{ inputs.java }}
         if: inputs.version_task
-        # https://github.com/actions/runner-images/blob/main/images/linux/Ubuntu2204-Readme.md#java
-        # language=bash
-        run: |
-          echo "JAVA_HOME=$(echo $JAVA_HOME_${{ inputs.java }}_X64)" >> "$GITHUB_ENV"
+        uses: neoforged/actions/setup-java@main
+        with:
+          java-version: ${{ inputs.java }}
 
       - name: Validate wrapper
         if: inputs.version_task
@@ -144,10 +143,9 @@ jobs:
         run: chmod +x ./gradlew # Thanks Windows
 
       - name: Setup Java ${{ inputs.java }}
-        # https://github.com/actions/runner-images/blob/main/images/linux/Ubuntu2204-Readme.md#java
-        # language=bash
-        run: |
-          echo "JAVA_HOME=$(echo $JAVA_HOME_${{ inputs.java }}_X64)" >> "$GITHUB_ENV"
+        uses: neoforged/actions/setup-java@main
+        with:
+          java-version: ${{ inputs.java }}
 
       - name: Validate wrapper
         uses: gradle/actions/wrapper-validation@v3
