@@ -13,6 +13,7 @@ runs:
     # https://github.com/actions/runner-images/blob/main/images/ubuntu/Ubuntu2404-Readme.md#java
     - if: inputs.java-version == 8 || inputs.java-version == 11 || inputs.java-version == 17 || inputs.java-version == 21
       name: Setup Java ${{ inputs.java-version }} using bash
+      shell: bash
       # language=bash
       run: |
         echo "JAVA_HOME=$(echo $JAVA_HOME_${{ inputs.java-version }}_X64)" >> "$GITHUB_ENV"
