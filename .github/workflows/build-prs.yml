@@ -40,18 +40,18 @@ jobs:
           run: chmod +x ./gradlew # Thanks Windows
 
         - name: Setup Java ${{ inputs.java }}
-          # https://github.com/actions/runner-images/blob/main/images/linux/Ubuntu2204-Readme.md#java
-          # language=bash
-          run: |
-            echo "JAVA_HOME=$(echo $JAVA_HOME_${{ inputs.java }}_X64)" >> "$GITHUB_ENV"
+          uses: neoforged/actions/setup-java@main
+          with:
+            java-version: ${{ inputs.java }}
 
-        - name: Validate wrapper
-          uses: gradle/actions/wrapper-validation@v3
+        - name: Setup Gradle
+          uses: gradle/actions/setup-gradle@v4
+          with:
+            cache-read-only: false
 
         - name: Build with Gradle
-          uses: gradle/gradle-build-action@v2
-          with:
-            arguments: ${{ inputs.gradle_tasks }}
+          run: |
+            ./gradlew ${{ inputs.gradle_tasks }}
             
         - name: Store reports
           if: failure()
@@ -65,11 +65,9 @@ jobs:
               **/build/test-results/
 
         - name: Run JCC
-          uses: gradle/gradle-build-action@v2
           if: inputs.jar_compatibility
-          with:
-            arguments: checkJarCompatibility
-            cache-read-only: false
+          run: |
+            ./gradlew checkJarCompatibility
 
         - name: Upload JCC
           uses: neoforged/action-jar-compatibility/upload@v1
