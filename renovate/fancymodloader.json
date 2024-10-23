@@ -5,7 +5,7 @@
     ],
     "packageRules": [
         {
-            "matchDepPatterns": [
+            "matchPackagePatterns": [
                 "^org\\.apache\\.commons:",
                 "^org\\.apache\\.logging\\.log4j:",
                 "^com\\.mojang:logging",
