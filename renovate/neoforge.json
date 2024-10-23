@@ -1,21 +1,38 @@
 {
     "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-    "extends": ["github>neoforged/actions:renovate_preset"],
-    "baseBranches": ["$default", "1.21.1"],
+    "extends": [
+        "github>neoforged/actions:renovate_preset"
+    ],
+    "baseBranches": [
+        "$default",
+        "1.21.1"
+    ],
     "packageRules": [
         {
             "__comment__": "Disable major updates by default",
-            "matchUpdateTypes": ["major"],
+            "matchUpdateTypes": [
+                "major"
+            ],
             "enabled": false
         },
         {
             "__comment__": "Enable major updates on the default branch",
-            "matchUpdateTypes": ["major"],
-            "matchBaseBranches": ["$default"],
+            "matchUpdateTypes": [
+                "major"
+            ],
+            "matchBaseBranches": [
+                "$default"
+            ],
             "enabled": true
         },
+        
         {
-            "matchDepPatterns": ["^org\\.apache\\.commons:", "^org\\.apache\\.logging\\.log4j:"],
+            "__comment__": "Avoid updating libs shipped by MC",
+            "matchDepPatterns": [
+                "^org\\.apache\\.commons:",
+                "^org\\.apache\\.logging\\.log4j:",
+                "^com\\.google\\.code\\.gson:gson"
+            ],
             "enabled": false
         }
     ]
