@@ -42,7 +42,7 @@ jobs:
               with:
                 path: /tmp/renovatecaches
                 key: renovate2-${{ github.run_id }}
-                restore-keys: renovate2-
+                restore-keys: renovate3-
                 save-always: true
             - run: |
                 mkdir -p /tmp/renovatecaches
