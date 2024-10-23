@@ -1,4 +1,17 @@
 {
     "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-    "extends": ["github>neoforged/actions:renovate_preset"]
+    "extends": [
+        "github>neoforged/actions:renovate_preset"
+    ],
+    "packageRules": [
+        {
+            "matchDepPatterns": [
+                "^org\\.apache\\.commons:",
+                "^org\\.apache\\.logging\\.log4j:",
+                "^com\\.mojang:logging",
+                "^net\\.neoforged:minecraft-dependencies"
+            ],
+            "enabled": false
+        }
+    ]
 }
