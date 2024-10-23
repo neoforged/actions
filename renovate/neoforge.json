@@ -21,11 +21,11 @@
                 "major"
             ],
             "matchBaseBranches": [
-                "$default"
+                "1.21.x"
             ],
             "enabled": true
         },
-        
+
         {
             "__comment__": "Avoid updating libs shipped by MC",
             "matchDepPatterns": [
