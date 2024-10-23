@@ -23,7 +23,7 @@ concurrency:
 
 jobs:
     renovate:
-        runs-on: ubuntu-latest
+        runs-on: renovate-runner
         steps:
             - name: Generate a token for the org
               id: gen_repo_token
@@ -37,16 +37,7 @@ jobs:
               with:
                 fetch-depth: 0
                 persist-credentials: false
-            - name: Cache Renovate cache dir
-              uses: actions/cache@v4
-              with:
-                path: /tmp/renovatecaches
-                key: renovate2-${{ github.run_id }}
-                restore-keys: renovate3-
-                save-always: true
-            - run: |
-                mkdir -p /tmp/renovatecaches
-                sudo chown -R 1000 /tmp/renovatecaches
+            - run: sudo chown -R 1000 /tmp/renovatecaches
             - name: Self-hosted Renovate
               uses: renovatebot/github-action@v40.1.12
               env:
@@ -67,4 +58,5 @@ jobs:
                   configurationFile: renovate_admin_config.json
                   token: '${{ steps.gen_repo_token.outputs.token }}'
                   renovate-version: 38.38.1
-            - run: sudo chown -R $(whoami) /tmp/renovatecaches
+                  docker-volumes: /renovatecache:/renovatecache
+            - run: sudo chown -R $(whoami) /renovatecache
