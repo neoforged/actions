@@ -7,11 +7,11 @@
         {
             "matchPackagePatterns": [
                 "^org\\.apache\\.commons:",
-                "^org\\.apache\\.logging\\.log4j:",
-                "^com\\.mojang:logging",
-                "^net\\.neoforged:minecraft-dependencies"
+                "^org\\.apache\\.logging\\.log4j:"
             ],
             "enabled": false
         }
-    ]
+    ],
+
+    "suppressNotifications": ["dependencyLookupWarnings"]
 }
