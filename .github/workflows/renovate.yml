@@ -41,9 +41,8 @@ jobs:
               uses: actions/cache@v4
               with:
                 path: /tmp/renovatecaches
-                key: renovate2-${{ github.run_id }}
-                restore-keys: renovate3-
-                save-always: true
+                key: renovate-${{ github.run_id }}
+                restore-keys: renovate-
             - run: |
                 mkdir -p /tmp/renovatecaches
                 sudo chown -R 1000 /tmp/renovatecaches
