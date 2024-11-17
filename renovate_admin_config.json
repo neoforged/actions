@@ -6,16 +6,8 @@
     },
     "onboardingConfigFileName": ".github/renovate.json",
     "repositoryCache": "enabled",
-    "cacheDir": "/tmp/renovatecaches",
     "dependencyDashboardFooter": "- [ ] Click to force Renovate to run again on this repository",
     "username": "neoforged-renovate[bot]",
-    "httpCacheTtlDays": 0,
-    "hostRules": [
-        {
-          "matchHost": "api.github.com",
-          "enableHttp2": true,
-          "timeout": 10000
-        }
-    ],
-    "allowedPostUpgradeCommands": ["^\\./gradlew wrapper$"]
+    "allowedPostUpgradeCommands": ["^\\./gradlew wrapper$"],
+    "platformCommit": "enabled"
 }
