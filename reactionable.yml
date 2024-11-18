@@ -11,7 +11,9 @@ repositories:
     baseRunCommand: |
       echo "JAVA_HOME=$(echo $JAVA_HOME_21_X64)" >> "$GITHUB_ENV"
       ./gradlew :neoforge:setup
-    runUploadPattern: src*/main/java/
+    runUploadPattern: |
+      src/
+      **/src/
     labelLocks:
       support:
         lock: true
