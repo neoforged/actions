@@ -13,7 +13,8 @@ repositories:
       ./gradlew :neoforge:setup
     runUploadPattern: |
       src/
-      **/src/
+      tests/src/
+      testframework/src/
     labelLocks:
       support:
         lock: true
