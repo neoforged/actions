@@ -7,6 +7,18 @@
         "$default",
         "1.21.1"
     ],
+    "customManagers": [
+        {
+            "customType": "regex",
+            "fileMatch": [
+                "gradle\\.properties$"
+            ],
+            "matchStrings": [
+                "# renovate: (?<depName>[\\w:\\.-]+)\\s+[A-Za-z_]+=(?<currentValue>[\\d\\.]+)"
+            ],
+            "datasourceTemplate": "maven"
+        }
+    ],
     "packageRules": [
         {
             "__comment__": "Disable major updates by default",
