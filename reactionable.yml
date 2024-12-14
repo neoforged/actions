@@ -10,7 +10,7 @@ repositories:
           No support questions.
   neoforged/mdk:
     labelHandlers:
-      "merge me now":
+      merge me now:
         - type: merge
           strategy: squash
   neoforged/neoforge:
