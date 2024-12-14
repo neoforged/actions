@@ -11,8 +11,8 @@ repositories:
   neoforged/mdk:
     labelHandlers:
       merge me now:
-        - type: merge
-          strategy: squash
+        type: merge
+        strategy: squash
   neoforged/neoforge:
     baseRunCommand: |
       echo "JAVA_HOME=$(echo $JAVA_HOME_21_X64)" >> "$GITHUB_ENV"
