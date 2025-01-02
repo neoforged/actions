@@ -25,6 +25,15 @@
             "matchPackagePatterns": ["^net\\.fabricmc"],
             "registryUrls": ["https://maven.fabricmc.net"]
         },
+
+        {
+            "matchDatasources": ["maven"],
+            "matchPackagePatterns": [
+                "^curse\\.maven(\\.|:)"
+            ],
+            "enabled": false
+        },
+
         {
             "matchPackagePatterns": ["^net\\.neoforged\\.gradleutils"],
             "groupName": "gradleutils"
