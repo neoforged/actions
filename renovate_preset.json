@@ -27,14 +27,6 @@
         },
 
         {
-            "matchDatasources": ["maven"],
-            "matchPackagePatterns": [
-                "^curse\\.maven(\\.|:)"
-            ],
-            "enabled": false
-        },
-
-        {
             "matchPackagePatterns": ["^net\\.neoforged\\.gradleutils"],
             "groupName": "gradleutils"
         },
