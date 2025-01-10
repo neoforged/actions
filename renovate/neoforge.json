@@ -1,7 +1,8 @@
 {
     "$schema": "https://docs.renovatebot.com/renovate-schema.json",
     "extends": [
-        "github>neoforged/actions:renovate_preset"
+        "github>neoforged/actions:renovate_preset",
+        ":semanticCommitsDisabled"
     ],
     "baseBranches": [
         "$default",
