@@ -32,6 +32,8 @@ repositories:
           Please ask in the `#user-support` channel in the Discord server, and the conversation can continue there.
       keep rebased:
         type: keep-rebased
+      awaiting community agreement:
+        type: block
 prActions:
   repository: neoforged/practionrunner
   workflow: run_pr.yml@main
