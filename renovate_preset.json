@@ -31,6 +31,10 @@
             "groupName": "gradleutils"
         },
         {
+            "matchPackagePatterns": ["^net\\.neoforged\\.moddev", "^net\\.neoforged:moddev"],
+            "groupName": "mdg"
+        },
+        {
             "matchPackagePatterns": ["^org\\.ow2\\.asm:asm.*"],
             "groupName": "asm"
         },
