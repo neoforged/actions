@@ -34,6 +34,19 @@ repositories:
         type: keep-rebased
       awaiting community agreement:
         type: block
+    backport:
+      preApplyGenCommands:
+        - ./gradlew setup
+        - git add -f projects/neoforge/src/main/java/
+        - git config user.name "Temp"
+        - git config user.email "example@example.com"
+        - git commit -m "Add vanilla sources"
+      postApplyGenCommands:
+        - git rm -r --cached patches/
+      preApplyCommands:
+        - ./gradlew setup
+      postApplyCommands:
+        - ./gradlew unpackSourcePatches
 prActions:
   repository: neoforged/practionrunner
   workflow: run_pr.yml@main
