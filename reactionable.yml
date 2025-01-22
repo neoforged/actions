@@ -16,7 +16,7 @@ repositories:
         - git config user.email "example@example.com"
         - git commit -m '"Add vanilla sources"' --quiet
       postApplyGenCommands:
-        - git rm -r --cached patches/ --quiet
+        - ./gradlew :neoforge:setup
       preApplyCommands:
         - ./gradlew setup
       postApplyCommands:
