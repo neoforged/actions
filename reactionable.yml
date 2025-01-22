@@ -14,7 +14,7 @@ repositories:
         - git add -f projects/neoforge/src/main/java/
         - git config user.name "Temp"
         - git config user.email "example@example.com"
-        - git commit -m "Add vanilla sources" --quiet
+        - git commit -m '"Add vanilla sources"' --quiet
       postApplyGenCommands:
         - git rm -r --cached patches/ --quiet
       preApplyCommands:
