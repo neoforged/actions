@@ -21,6 +21,7 @@ repositories:
         - ./gradlew setup
       postApplyCommands:
         - ./gradlew unpackSourcePatches
+      diffPattern: '!patches/'
   neoforged/mdk:
     labelHandlers:
       merge me now:
