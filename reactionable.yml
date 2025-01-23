@@ -29,14 +29,11 @@ repositories:
       merge me now:
         type: merge
         method: SQUASH
+
   neoforged/neoforge:
     baseRunCommand: |
       echo "JAVA_HOME=$(echo $JAVA_HOME_21_X64)" >> "$GITHUB_ENV"
       ./gradlew :neoforge:setup
-    runUploadPattern: |
-      src/
-      tests/src/
-      testframework/src/
     backport:
       preApplyGenCommands:
         - ./gradlew :neoforge:setup
@@ -66,6 +63,7 @@ repositories:
         type: keep-rebased
       awaiting community agreement:
         type: block
+
 prActions:
   repository: neoforged/practionrunner
   workflow: run_pr.yml@main
