@@ -19,8 +19,10 @@ repositories:
         - ./gradlew :neoforge:setup
       preApplyCommands:
         - ./gradlew :neoforge:setup
+        - git add -f projects/neoforge/src/main/java/
       postApplyCommands:
         - ./gradlew unpackSourcePatches
+        - git rm -r projects/neoforge/src/main/java/
       diffPattern: '!patches/'
   neoforged/mdk:
     labelHandlers:
