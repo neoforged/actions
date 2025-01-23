@@ -35,19 +35,20 @@ repositories:
       echo "JAVA_HOME=$(echo $JAVA_HOME_21_X64)" >> "$GITHUB_ENV"
       ./gradlew :neoforge:setup
     backport:
+      # Because we can't really backport patches we instead backport the actual changes they cause
       preApplyGenCommands:
-        - ./gradlew :neoforge:setup
-        - git add -f projects/neoforge/src/main/java/
+        - ./gradlew :neoforge:setup # Prepare base sources
+        - git add -f projects/neoforge/src/main/java/ # Add and commit vanilla sources so we can diff them
         - git config user.name "Temp"
         - git config user.email "example@example.com"
         - git commit -m '"Add vanilla sources"' --quiet
       postApplyGenCommands:
-        - ./gradlew :neoforge:setup
+        - ./gradlew :neoforge:setup # Apply patches from PR
       preApplyCommands:
-        - ./gradlew :neoforge:setup
-        - git add -f projects/neoforge/src/main/java/
+        - ./gradlew :neoforge:setup # Prepare base sources
+        - git add -f projects/neoforge/src/main/java/ # Force git to track the vanilla sources so the diff generated from the PR will be applied
       postApplyCommands:
-        - ./gradlew unpackSourcePatches
+        - ./gradlew unpackSourcePatches # TODO - genPatches in newer versions, we'll have to handle this at some point (probably with an alias on the old branches?)
         - rm -rf projects/neoforge/src/main/java/
       diffPattern: '!patches/'
     labelHandlers:
