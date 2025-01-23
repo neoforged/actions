@@ -37,6 +37,22 @@ repositories:
       src/
       tests/src/
       testframework/src/
+    backport:
+      preApplyGenCommands:
+        - ./gradlew :neoforge:setup
+        - git add -f projects/neoforge/src/main/java/
+        - git config user.name "Temp"
+        - git config user.email "example@example.com"
+        - git commit -m '"Add vanilla sources"' --quiet
+      postApplyGenCommands:
+        - ./gradlew :neoforge:setup
+      preApplyCommands:
+        - ./gradlew :neoforge:setup
+        - git add -f projects/neoforge/src/main/java/
+      postApplyCommands:
+        - ./gradlew unpackSourcePatches
+        - rm -rf projects/neoforge/src/main/java/
+      diffPattern: '!patches/'
     labelHandlers:
       support:
         type: lock
