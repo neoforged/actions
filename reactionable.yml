@@ -10,7 +10,7 @@ repositories:
           No support questions.
     backport:
       preApplyGenCommands:
-        - ./gradlew setup
+        - ./gradlew :neoforge:setup
         - git add -f projects/neoforge/src/main/java/
         - git config user.name "Temp"
         - git config user.email "example@example.com"
@@ -18,7 +18,7 @@ repositories:
       postApplyGenCommands:
         - ./gradlew :neoforge:setup
       preApplyCommands:
-        - ./gradlew setup
+        - ./gradlew :neoforge:setup
       postApplyCommands:
         - ./gradlew unpackSourcePatches
       diffPattern: '!patches/'
