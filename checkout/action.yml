@@ -11,16 +11,19 @@ runs:
         fetch-tags: true
 
     - name: Fetch tags # See https://github.com/actions/checkout/issues/2041
+      shell: bash
       run: git fetch --tags
 
     # GradleUtils will append the branch name to the version,
     # but for that we need a properly checked out branch
     - name: Create branch for commit (PR)
       if: ${{ github.event_name == 'pull_request' }}
+      shell: bash
       run:
         git switch -C pr-${{ github.event.pull_request.number }}-${{ github.event.pull_request.head.ref }}
 
     - name: Create branch for commit
       if: ${{ github.event_name != 'pull_request' }}
+      shell: bash
       run:
         git switch -C ${{ github.ref_name }}
