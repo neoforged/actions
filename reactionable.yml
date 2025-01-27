@@ -48,7 +48,7 @@ repositories:
         - ./gradlew :neoforge:setup # Prepare base sources
         - git add -f projects/neoforge/src/main/java/ # Force git to track the vanilla sources so the diff generated from the PR will be applied
       postApplyCommands:
-        - ./gradlew unpackSourcePatches # TODO - genPatches in newer versions, we'll have to handle this at some point (probably with an alias on the old branches?)
+        - ./gradlew :neoforge:genPatches # TODO - genPatches in newer versions, we'll have to handle this at some point (probably with an alias on the old branches?)
         - rm -rf projects/neoforge/src/main/java/
       diffPattern: '!patches/'
     labelHandlers:
