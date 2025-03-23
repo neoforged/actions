@@ -29,6 +29,11 @@ on:
         required: false
         type: "string"
         default: ""
+      webhook_commit_information:
+        description: "Whether to include author information in the release webhook"
+        required: false
+        type: boolean
+        default: true
     secrets:
       DISCORD_WEBHOOK:
         required: true
@@ -117,6 +122,7 @@ jobs:
           webhook_url: ${{ secrets.DISCORD_WEBHOOK }}
           status: 'started'
           version: ${{ needs.compute-version.outputs.version }}
+          include_commit_message: ${{ inputs.webhook_commit_information }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - uses: neoforged/action-github-status@v1
@@ -185,6 +191,7 @@ jobs:
           webhook_url: ${{ secrets.DISCORD_WEBHOOK }}
           status: ${{ needs.gradle.result }}
           version: ${{ needs.compute-version.outputs.version }}
+          include_commit_message: ${{ inputs.webhook_commit_information }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - uses: neoforged/action-github-status@v1
