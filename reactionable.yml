@@ -64,6 +64,10 @@ repositories:
         type: keep-rebased
       awaiting community agreement:
         type: block
+      "backport to (?<ver>[\\d\\.]+)":
+        regex: true
+        type: backport
+        version: ${ver}
 
 prActions:
   repository: neoforged/practionrunner
