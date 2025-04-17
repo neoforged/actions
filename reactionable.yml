@@ -21,7 +21,7 @@ repositories:
         - ./gradlew :neoforge:setup
         - git add -f projects/neoforge/src/main/java/
       postApplyCommands:
-        - ./gradlew :neoforge:genPatches
+        - ./gradlew :neoforge:genPatches || ./gradlew :neoforge:unpackSourcePatches
         - rm -rf projects/neoforge/src/main/java/
       diffPattern: '!patches/'
   neoforged/mdk:
