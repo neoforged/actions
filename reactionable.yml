@@ -48,7 +48,7 @@ repositories:
             git commit -m '"Add vanilla sources"' --quiet
         
         # Move client files to the main sourceset and back when we backport from a version with split sources to a version without
-        - if: pr.base == '1.21.x' || semver.satisfies(pr.base, '>1.21.4')) && semver.satisfies(target, '<=1.21.4'
+        - if: (pr.base == '1.21.x' || semver.satisfies(pr.base, '>1.21.4')) && semver.satisfies(target, '<=1.21.4')
           then: |
             mv src/client/java/net/neoforged/neoforge/client src/main/java/net/neoforged/neoforge/client
             git add src/main/java/net/neoforged/neoforge/client/ src/client/java/net/neoforged/neoforge/client/
@@ -60,7 +60,7 @@ repositories:
           then: ./gradlew :neoforge:setup
           
         # Move client files when we backport from a version with split sources to a version without
-        - if: pr.base == '1.21.x' || semver.satisfies(pr.base, '>1.21.4')) && semver.satisfies(target, '<=1.21.4'
+        - if: (pr.base == '1.21.x' || semver.satisfies(pr.base, '>1.21.4')) && semver.satisfies(target, '<=1.21.4')
           then: mv src/client/java/net/neoforged/neoforge/client src/main/java/net/neoforged/neoforge/client
       preApplyCommands:
         - if: pr.changedFiles.some(file => file.endsWith(".patch"))
