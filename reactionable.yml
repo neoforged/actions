@@ -47,7 +47,7 @@ repositories:
         - if: (baseBranch == '1.21.x' || semver.satisfies(baseBranch, '>1.21.4')) && semver.satisfies(targetBranch, '<=1.21.4')
           then: |
             mv src/client/java/net/neoforged/neoforge/client src/main/java/net/neoforged/neoforge/client
-            git add src/main/java/net/neoforged/neoforge/client/
+            git add src/main/java/net/neoforged/neoforge/client/ src/client/java/net/neoforged/neoforge/client/
             git commit -m '"Move client sources"' --quiet
             mv src/main/java/net/neoforged/neoforge/client src/client/java/net/neoforged/neoforge/client
       postApplyGenCommands:
