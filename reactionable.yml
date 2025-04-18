@@ -35,32 +35,45 @@ repositories:
       echo "JAVA_HOME=$(echo $JAVA_HOME_21_X64)" >> "$GITHUB_ENV"
       ./gradlew :neoforge:setup
     backport:
-      # Because we can't really backport patches we instead backport the actual changes they cause
       preApplyGenCommands:
-        - ./gradlew :neoforge:setup # Prepare base sources
-        - git add -f projects/neoforge/src/main/java/ # Add and commit vanilla sources so we can diff them
         - git config user.name "Temp"
         - git config user.email "example@example.com"
-        - git commit -m '"Add vanilla sources"' --quiet
+
+        # Because we can't really backport patches we instead backport the actual changes they cause
+        - if: pr.changedFiles.some(file => file.endsWith(".patch"))
+          # Prepare base sources then add and commit vanilla sources so we can diff them
+          then: |
+            ./gradlew :neoforge:setup
+            git add -f projects/neoforge/src/main/java/
+            git commit -m '"Add vanilla sources"' --quiet
         
         # Move client files to the main sourceset and back when we backport from a version with split sources to a version without
-        - if: (baseBranch == '1.21.x' || semver.satisfies(baseBranch, '>1.21.4')) && semver.satisfies(targetBranch, '<=1.21.4')
+        - if: pr.base == '1.21.x' || semver.satisfies(pr.base, '>1.21.4')) && semver.satisfies(target, '<=1.21.4'
           then: |
             mv src/client/java/net/neoforged/neoforge/client src/main/java/net/neoforged/neoforge/client
             git add src/main/java/net/neoforged/neoforge/client/ src/client/java/net/neoforged/neoforge/client/
             git commit -m '"Move client sources"' --quiet
             mv src/main/java/net/neoforged/neoforge/client src/client/java/net/neoforged/neoforge/client
       postApplyGenCommands:
-        - ./gradlew :neoforge:setup # Apply patches from PR
+        # Apply patches from PR if needed
+        - if: pr.changedFiles.some(file => file.endsWith(".patch"))
+          then: ./gradlew :neoforge:setup
+          
         # Move client files when we backport from a version with split sources to a version without
-        - if: (baseBranch == '1.21.x' || semver.satisfies(baseBranch, '>1.21.4')) && semver.satisfies(targetBranch, '<=1.21.4')
+        - if: pr.base == '1.21.x' || semver.satisfies(pr.base, '>1.21.4')) && semver.satisfies(target, '<=1.21.4'
           then: mv src/client/java/net/neoforged/neoforge/client src/main/java/net/neoforged/neoforge/client
       preApplyCommands:
-        - ./gradlew :neoforge:setup # Prepare base sources
-        - git add -f projects/neoforge/src/main/java/ # Force git to track the vanilla sources so the diff generated from the PR will be applied
+        - if: pr.changedFiles.some(file => file.endsWith(".patch"))
+          # Prepare base sources then force git to track the vanilla sources so the diff generated from the PR will be applied
+          then: |
+            ./gradlew :neoforge:setup
+            git add -f projects/neoforge/src/main/java/
       postApplyCommands:
-        - ./gradlew :neoforge:genPatches
-        - rm -rf projects/neoforge/src/main/java/
+        - if: pr.changedFiles.some(file => file.endsWith(".patch"))
+          # Prepare base sources then force git to track the vanilla sources so the diff generated from the PR will be applied
+          then: |
+            ./gradlew :neoforge:genPatches
+            rm -rf projects/neoforge/src/main/java/
       diffPattern: '!patches/'
     labelHandlers:
       support:
