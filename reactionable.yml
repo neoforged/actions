@@ -70,7 +70,6 @@ repositories:
             git add -f projects/neoforge/src/main/java/
       postApplyCommands:
         - if: pr.changedFiles.some(file => file.endsWith(".patch"))
-          # Prepare base sources then force git to track the vanilla sources so the diff generated from the PR will be applied
           then: |
             ./gradlew :neoforge:genPatches
             rm -rf projects/neoforge/src/main/java/
