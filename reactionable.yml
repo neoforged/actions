@@ -77,7 +77,9 @@ repositories:
           # Prepare base sources then force git to track the vanilla sources so the diff generated from the PR will be applied
           then: |
             ./gradlew :neoforge:setup
-            git add -f projects/neoforge/src/{main,client}/java/
+            git add -f projects/neoforge/src/main/java/
+        - if: pr.changedFiles.some(file => file.endsWith(".patch")) && semver.satisfies(target, '>1.21.4')
+          then: git add -f projects/neoforge/src/client/java/
       postApplyCommands:
         - if: pr.changedFiles.some(file => file.endsWith(".patch"))
           then: |
