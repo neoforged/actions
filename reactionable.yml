@@ -53,7 +53,7 @@ repositories:
             git add src/main/java/net/neoforged/neoforge/client/ src/client/java/net/neoforged/neoforge/client/
             mv src/main/java/net/neoforged/neoforge/client src/client/java/net/neoforged/neoforge/client
 
-            mv projects/neoforge/src/client/java/ projects/neoforge/src/main/java/
+            rsync -av projects/neoforge/src/client/java/ projects/neoforge/src/main/java/
             git add -f projects/neoforge/src/main/java/
             mv projects/neoforge/src/main/java/net/minecraft/client projects/neoforge/src/client/java/net/minecraft/client
             mv projects/neoforge/src/main/java/net/minecraft/realms projects/neoforge/src/client/java/net/minecraft/realms
@@ -71,7 +71,7 @@ repositories:
         - if: (pr.base == '1.21.x' || semver.satisfies(pr.base, '>1.21.4')) && semver.satisfies(target, '<=1.21.4')
           then: |
             mv src/client/java/net/neoforged/neoforge/client src/main/java/net/neoforged/neoforge/client
-            mv projects/neoforge/src/client/java/ projects/neoforge/src/main/java/
+            rsync -av projects/neoforge/src/client/java/ projects/neoforge/src/main/java/
       preApplyCommands:
         - if: pr.changedFiles.some(file => file.endsWith(".patch"))
           # Prepare base sources then force git to track the vanilla sources so the diff generated from the PR will be applied
