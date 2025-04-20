@@ -47,9 +47,9 @@ repositories:
         # Move client files to the main sourceset and back when we backport from a version with split sources to a version without
         - if: (pr.base == '1.21.x' || semver.satisfies(pr.base, '>1.21.4')) && semver.satisfies(target, '<=1.21.4')
           then: |
-            mv src/client/java/net/neoforged/neoforge/client src/main/java/net/neoforged/neoforge/client
-            git add src/main/java/net/neoforged/neoforge/client/ src/client/java/net/neoforged/neoforge/client/
-            mv src/main/java/net/neoforged/neoforge/client src/client/java/net/neoforged/neoforge/client
+            ?mv src/client/java/net/neoforged/neoforge/client src/main/java/net/neoforged/neoforge/client
+            ?git add src/main/java/net/neoforged/neoforge/client/ src/client/java/net/neoforged/neoforge/client/
+            ?mv src/main/java/net/neoforged/neoforge/client src/client/java/net/neoforged/neoforge/client
 
             ?rsync -av projects/neoforge/src/client/java/ projects/neoforge/src/main/java/
             git add -f projects/neoforge/src/main/java/
@@ -68,7 +68,7 @@ repositories:
         # Move client files when we backport from a version with split sources to a version without
         - if: (pr.base == '1.21.x' || semver.satisfies(pr.base, '>1.21.4')) && semver.satisfies(target, '<=1.21.4')
           then: |
-            mv src/client/java/net/neoforged/neoforge/client src/main/java/net/neoforged/neoforge/client
+            ?mv src/client/java/net/neoforged/neoforge/client src/main/java/net/neoforged/neoforge/client
             ?rsync -av projects/neoforge/src/client/java/ projects/neoforge/src/main/java/
       preApplyCommands:
         - if: pr.changedFiles.some(file => file.endsWith(".patch"))
