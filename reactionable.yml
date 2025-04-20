@@ -52,13 +52,13 @@ repositories:
             ?mv src/main/java/net/neoforged/neoforge/client src/client/java/net/neoforged/neoforge/client
 
             ?rsync -av projects/neoforge/src/client/java/ projects/neoforge/src/main/java/
-            git add -f projects/neoforge/src/main/java/
+            ?git add -f projects/neoforge/src/main/java/
             ?mv projects/neoforge/src/main/java/net/minecraft/client projects/neoforge/src/client/java/net/minecraft/client
             ?mv projects/neoforge/src/main/java/net/minecraft/realms projects/neoforge/src/client/java/net/minecraft/realms
             ?mv projects/neoforge/src/main/java/com/mojang/blaze3d projects/neoforge/src/client/java/com/mojang/blaze3d
             ?mv projects/neoforge/src/main/java/com/mojang/realmsclient projects/neoforge/src/client/java/com/mojang/realmsclient
           else: |
-            git add -f projects/neoforge/src/client/java/
+            ?git add -f projects/neoforge/src/client/java/
         - git commit --allow-empty -m '"Add vanilla sources and move client sources"' --quiet
       postApplyGenCommands:
         # Apply patches from PR if needed
