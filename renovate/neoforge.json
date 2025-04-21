@@ -6,8 +6,7 @@
     ],
     "baseBranches": [
         "$default",
-        "1.21.1",
-        "1.20.2"
+        "1.21.1"
     ],
     "customManagers": [
         {
@@ -38,11 +37,6 @@
                 "1.21.x"
             ],
             "enabled": true
-        },
-
-        {
-            "matchDepNames": ["net.neoforged.gradle.platform"],
-            "allowedVersions": "7.0.95"
         },
 
         {
