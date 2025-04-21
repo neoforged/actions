@@ -56,10 +56,6 @@ jobs:
           with:
             cache-read-only: false
 
-        - name: Install software OpenGL rendering
-          run: sudo apt-get install xvfb libgl1-mesa-dri
-          if: "!inputs.headless"
-
         - name: Build with Gradle
           run: |
             ${{ !inputs.headless && 'xvfb-run' || '' }} ./gradlew ${{ inputs.gradle_tasks }}
