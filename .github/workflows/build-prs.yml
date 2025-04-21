@@ -18,6 +18,11 @@ on:
             required: false
             type: boolean
             default: false
+        graphics_environment:
+            description: "If enabled, provides graphical capabilities using software OpenGL rendering and Xvfb"
+            required: false
+            type: boolean
+            default: false
 
 jobs:
     build:
@@ -53,8 +58,8 @@ jobs:
 
         - name: Build with Gradle
           run: |
-            ./gradlew ${{ inputs.gradle_tasks }}
-            
+            ${{ inputs.graphics_environment && 'xvfb-run' || '' }} ./gradlew ${{ inputs.gradle_tasks }}
+
         - name: Store reports
           if: failure()
           uses: actions/upload-artifact@v4
