@@ -18,6 +18,11 @@ on:
             required: false
             type: boolean
             default: false
+        headless:
+            description: "If set to false, graphical capabilities will be available to the build (via Xvfb)"
+            required: false
+            type: boolean
+            default: true
 
 jobs:
     build:
@@ -51,10 +56,14 @@ jobs:
           with:
             cache-read-only: false
 
+        - name: Install software OpenGL rendering
+          run: sudo apt-get install xvfb libgl1-mesa-dri
+          if: "!inputs.headless"
+
         - name: Build with Gradle
           run: |
-            ./gradlew ${{ inputs.gradle_tasks }}
-            
+            ${{ !inputs.headless && 'xvfb-run' || '' }} ./gradlew ${{ inputs.gradle_tasks }}
+
         - name: Store reports
           if: failure()
           uses: actions/upload-artifact@v4
