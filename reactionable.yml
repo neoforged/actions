@@ -103,8 +103,8 @@ repositories:
         version: ${ver}
 
 prActions:
-  repository: neoforged/practionrunner
-  workflow: run_pr.yml@main
+  repository: neoforged/action-runner
+  workflow: run.yml@main
 commands:
   prefixes:
     - "@neoforged/bots "
