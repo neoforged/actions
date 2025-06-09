@@ -63,7 +63,7 @@ jobs:
 
             - name: Checkout downstream
               run: |
-                git checkout ${{ github.event.inputs.branch }} downstream
+                git checkout ${{ github.event.inputs.repository }} downstream
             - name: Remove tracked files from downstream repository
               working-directory: ./downstream
               run: git ls-files -z | xargs -0 rm -f
