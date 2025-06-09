@@ -24,6 +24,7 @@ jobs:
               uses: actions/checkout@v4
               with:
                 repository: neoforged/mod-generator
+                persist-credentials: false
             - uses: actions/setup-node@v4
               with:
                 node-version: 20
@@ -62,8 +63,11 @@ jobs:
                 actor: 'neoforge-mdk-automation[bot]'
 
             - name: Checkout downstream
-              run: |
-                git checkout ${{ github.event.inputs.repository }} downstream
+              uses: actions/checkout@v4
+              with:
+                repository: ${{ github.event.inputs.repository }}
+                path: downstream
+                persist-credentials: false
             - name: Remove tracked files from downstream repository
               working-directory: ./downstream
               run: git ls-files -z | xargs -0 rm -f
