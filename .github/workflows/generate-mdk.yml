@@ -40,9 +40,10 @@ jobs:
                 --output-folder out
             # This step is needed to make gradlew executable as long as the mod generator does not do it directly.
             # This should cause git to pickup the executable bit when pushing to the downstream repository.
-            - name: Make gradle executable
-              working-directory: ./out
-              run: chmod +x ./gradlew
+            # TODO: do we need this if we go for a cp?
+            # - name: Make gradle executable
+            #   working-directory: ./out
+            #   run: chmod +x ./gradlew
 
             - name: Generate a token for downstream
               id: gen_downstream_token
@@ -59,14 +60,18 @@ jobs:
                 name: 'NeoForge MDK Automation'
                 email: '173375039+neoforge-mdk-automation[bot]@users.noreply.github.com'
                 actor: 'neoforge-mdk-automation[bot]'
-            - name: Create repository for the MDK
-              working-directory: ./out
+
+            - name: Checkout downstream
               run: |
-                git init
+                git checkout ${{ github.event.inputs.branch }} downstream
+            - name: Remove tracked files from downstream repository
+              working-directory: ./downstream
+              run: git ls-files -z | xargs -0 rm -f
+            - name: Copy generated files over
+              run: cp -r ./out/* ./downstream
+            - name: Add changed files, commit, push
+              working-directory: ./downstream
+              run: |
                 git add .
-                git commit -m "Initial commit for MDK"
-            - name: Push to downstream
-              working-directory: ./out
-              run: |
-                git remote add downstream https://neoforge-mdk-automation[bot]:${{ steps.gen_downstream_token.outputs.token }}@github.com/${{ github.event.inputs.repository }}.git
-                git push --force -u downstream ${{ github.event.inputs.branch }}:main
+                git commit -m "Update MDK with new output from mod generator"
+                git push
