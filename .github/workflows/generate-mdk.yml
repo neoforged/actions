@@ -37,7 +37,7 @@ jobs:
                 --mod-id examplemod
                 --minecraft-version ${{ github.event.inputs.minecraft_version }}
                 --gradle-plugin ${{ github.event.inputs.gradle_plugin }}
-                --package-name net.neoforged.examplemod
+                --package-name com.example.examplemod
                 --output-folder out
             # This step is needed to make gradlew executable as long as the mod generator does not do it directly.
             # This should cause git to pickup the executable bit when pushing to the downstream repository.
@@ -72,10 +72,12 @@ jobs:
               working-directory: ./downstream
               run: git ls-files -z | xargs -0 rm -f
             - name: Copy generated files over
-              run: cp -r ./out/* ./downstream
+              run: cp -rT ./out ./downstream
             - name: Add changed files, commit, push
               working-directory: ./downstream
               run: |
                 git add .
                 git commit -m "Update MDK with new output from mod generator"
-                git push
+                git remote remove origin
+                git remote add downstream https://neoforge-mdk-automation[bot]:${{ steps.gen_downstream_token.outputs.token }}@github.com/${{ github.event.inputs.repository }}.git
+                git push -u downstream main
