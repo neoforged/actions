@@ -1,0 +1,71 @@
+name: Generate MDK repository
+
+on:
+  workflow_dispatch:
+    inputs:
+      repository:
+        type: string
+        description: 'The URL of the repository'
+        required: true
+      minecraft_version:
+        type: string
+        description: 'The Minecraft version to generate the MDK for'
+        required: true
+      gradle_plugin:
+        type: string
+        description: 'The Gradle plugin version to use for the MDK'
+        required: true
+
+jobs:
+    generate:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout latest version of the mod generator
+              uses: actions/checkout@v4
+              with:
+                repository: neoforged/mod-generator
+            - uses: actions/setup-node@v4
+              with:
+                node-version: 20
+            - name: Download NPM dependencies
+              run: npm install
+            - name: Generate MDK
+              run: >
+                npm run run -- generate
+                --mod-name 'Example Mod'
+                --mod-id examplemod
+                --minecraft-version ${{ github.event.inputs.minecraft_version }}
+                --gradle-plugin ${{ github.event.inputs.gradle_plugin }}
+                --package-name net.neoforged.examplemod
+                --output-folder out
+            - name: Go to output folder
+              run: cd out
+            # This step is needed to make gradlew executable as long as the mod generator does not do it directly.
+            # This should cause git to pickup the executable bit when pushing to the downstream repository.
+            - name: Make gradle executable
+              run: chmod +x ./out/gradlew
+
+            - name: Generate a token for downstream
+              id: gen_downstream_token
+              uses: kattecon/gh-app-access-token-gen@v1
+              with:
+                  app_id: 926135
+                  private_key: ${{ secrets.MDKS_APPLICATION_KEY }}
+                  repository: ${{ github.event.inputs.repository }}
+            - name: Update git credentials
+              uses: OleksiyRudenko/gha-git-credentials@v2.1.2
+              with:
+                token: ${{ steps.gen_downstream_token.outputs.token }}
+                global: true
+                name: 'NeoForge MDK Automation'
+                email: '173375039+neoforge-mdk-automation[bot]@users.noreply.github.com'
+                actor: 'neoforge-mdk-automation[bot]'
+            - name: Create repository for the MDK
+              run: |
+                git init
+                git add .
+                git commit -m "Initial commit for MDK"
+            - name: Push to downstream
+              run: |
+                git remote add downstream https://neoforge-mdk-automation[bot]:${{ steps.gen_downstream_token.outputs.token }}@github.com/${{ github.event.inputs.repository }}.git
+                git push --force -u downstream ${{ github.event.inputs.branch }}:main
