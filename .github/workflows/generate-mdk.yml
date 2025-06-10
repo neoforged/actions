@@ -24,6 +24,7 @@ jobs:
               uses: actions/checkout@v4
               with:
                 repository: neoforged/mod-generator
+                persist-credentials: false
             - uses: actions/setup-node@v4
               with:
                 node-version: 20
@@ -36,14 +37,9 @@ jobs:
                 --mod-id examplemod
                 --minecraft-version ${{ github.event.inputs.minecraft_version }}
                 --gradle-plugin ${{ github.event.inputs.gradle_plugin }}
-                --package-name net.neoforged.examplemod
+                --package-name com.example.examplemod
+                --executable-gradlew no
                 --output-folder out
-            - name: Go to output folder
-              run: cd out
-            # This step is needed to make gradlew executable as long as the mod generator does not do it directly.
-            # This should cause git to pickup the executable bit when pushing to the downstream repository.
-            - name: Make gradle executable
-              run: chmod +x ./out/gradlew
 
             - name: Generate a token for downstream
               id: gen_downstream_token
@@ -60,12 +56,28 @@ jobs:
                 name: 'NeoForge MDK Automation'
                 email: '173375039+neoforge-mdk-automation[bot]@users.noreply.github.com'
                 actor: 'neoforge-mdk-automation[bot]'
-            - name: Create repository for the MDK
+
+            - name: Checkout downstream
+              uses: actions/checkout@v4
+              with:
+                repository: ${{ github.event.inputs.repository }}
+                path: downstream
+                persist-credentials: false
+            - name: Remove tracked files from downstream repository
+              working-directory: ./downstream
+              run: git ls-files -z | xargs -0 rm -f
+            - name: Copy generated files over
+              run: cp -rT ./out ./downstream
+            # Making gradlew executable is needed such that ./gradlew will work on unix systems.
+            - name: Add changed files and make gradlew executable
+              working-directory: ./downstream
               run: |
-                git init
                 git add .
-                git commit -m "Initial commit for MDK"
-            - name: Push to downstream
+                git update-index --chmod +x gradlew
+            - name: Commit and push
+              working-directory: ./downstream
               run: |
+                git commit -m "Update MDK with new output from mod generator"
+                git remote remove origin
                 git remote add downstream https://neoforge-mdk-automation[bot]:${{ steps.gen_downstream_token.outputs.token }}@github.com/${{ github.event.inputs.repository }}.git
-                git push --force -u downstream ${{ github.event.inputs.branch }}:main
+                git push -u downstream main
