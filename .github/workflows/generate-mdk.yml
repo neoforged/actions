@@ -82,7 +82,15 @@ jobs:
               run: |
                 git add .
                 git update-index --chmod +x gradlew
+            - name: Check status
+              id: check-status
+              uses: actions/github-script@v7
+              with:
+                script: |
+                  const { stdout } = await exec.getExecOutput('git', ['status']);
+                  return !stdout.includes('nothing to commit, working tree clean'))
             - name: Commit and push
+              if: steps.check-status.outputs.result
               working-directory: ./downstream
               run: |
                 git commit -m "Update MDK with new output from mod generator"
