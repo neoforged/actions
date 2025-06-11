@@ -88,7 +88,7 @@ jobs:
               with:
                 script: |
                   const { stdout } = await exec.getExecOutput('git', ['status']);
-                  return !stdout.includes('nothing to commit, working tree clean'))
+                  return !stdout.includes('nothing to commit, working tree clean')
             - name: Commit and push
               if: steps.check-status.outputs.result
               working-directory: ./downstream
