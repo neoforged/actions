@@ -65,7 +65,7 @@ jobs:
                 persist-credentials: false
             - name: Switch to update branch
               working-directory: ./downstream
-              run: git switch -c update
+              run: git switch update || git switch -c update
             - name: Remove tracked files from downstream repository
               working-directory: ./downstream
               run: git ls-files -z | xargs -0 rm -f
