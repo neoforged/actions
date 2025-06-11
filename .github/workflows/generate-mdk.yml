@@ -80,7 +80,7 @@ jobs:
             - name: Add changed files and make gradlew executable
               working-directory: ./downstream
               run: |
-                git update-index --chmod=+x gradlew
+                chmod +x ./gradlew
                 git add .
             - name: Check status
               id: check-status
@@ -93,7 +93,7 @@ jobs:
                   console.log(`Should commit: ${shouldCommit}`)
                   return shouldCommit
             - name: Commit and push
-              if: steps.check-status.outputs.result
+              if: steps.check-status.outputs.result == 'true'
               working-directory: ./downstream
               run: |
                 git commit -m "Update MDK with new output from mod generator"
