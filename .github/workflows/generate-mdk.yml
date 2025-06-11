@@ -63,6 +63,7 @@ jobs:
                 repository: ${{ github.event.inputs.repository }}
                 path: downstream
                 persist-credentials: false
+                fetch-depth: 0
             - name: Switch to update branch
               working-directory: ./downstream
               run: git switch update || git switch -c update
