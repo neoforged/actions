@@ -87,7 +87,7 @@ jobs:
               uses: actions/github-script@v7
               with:
                 script: |
-                  const { stdout } = await exec.getExecOutput('git', ['status']);
+                  const { stdout } = await exec.getExecOutput('git', ['status'], {cwd: './downstream'});
                   return !stdout.includes('nothing to commit, working tree clean')
             - name: Commit and push
               if: steps.check-status.outputs.result
