@@ -5,15 +5,19 @@ on:
     inputs:
       repository:
         type: string
-        description: 'The URL of the repository'
+        description: The URL of the repository
         required: true
       minecraft_version:
         type: string
-        description: 'The Minecraft version to generate the MDK for'
+        description: The Minecraft version to generate the MDK for
         required: true
       gradle_plugin:
         type: string
-        description: 'The Gradle plugin version to use for the MDK'
+        description: The Gradle plugin version to use for the MDK
+        required: true
+      branch:
+        type: string
+        description: The branch to push to
         required: true
 
 jobs:
@@ -64,9 +68,9 @@ jobs:
                 path: downstream
                 persist-credentials: false
                 fetch-depth: 0
-            - name: Switch to update branch
+            - name: Switch to ${{ inputs.branch }} branch
               working-directory: ./downstream
-              run: git switch update || git switch -c update
+              run: git switch ${{ inputs.branch }} || git switch -c ${{ inputs.branch }}
             - name: Remove tracked files from downstream repository
               working-directory: ./downstream
               run: git ls-files -z | xargs -0 rm -f
@@ -84,4 +88,4 @@ jobs:
                 git commit -m "Update MDK with new output from mod generator"
                 git remote remove origin
                 git remote add downstream https://neoforge-mdk-automation[bot]:${{ steps.gen_downstream_token.outputs.token }}@github.com/${{ github.event.inputs.repository }}.git
-                git push -u downstream update
+                git push -u downstream ${{ inputs.branch }}
