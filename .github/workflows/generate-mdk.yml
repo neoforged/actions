@@ -82,6 +82,7 @@ jobs:
               run: |
                 chmod +x ./gradlew
                 git add .
+
             - name: Check status
               id: check-status
               uses: actions/github-script@v7
@@ -100,3 +101,29 @@ jobs:
                 git remote remove origin
                 git remote add downstream https://neoforge-mdk-automation[bot]:${{ steps.gen_downstream_token.outputs.token }}@github.com/${{ github.event.inputs.repository }}.git
                 git push -u downstream ${{ inputs.branch }}
+
+            - name: Create PR
+              if: steps.check-status.outputs.result == 'true'
+              uses: actions/github-script@v7
+              env:
+                REPO: ${{ inputs.repository }}
+                BRANCH: ${{ inputs.branch }}
+              with:
+                github-token: ${{ steps.gen_downstream_token.outputs.token }}
+                script: |
+                  const repoPath = process.env.REPO.split('/')
+                  const repo = { owner: repoPath[0], repo: repoPath[1] }
+                  const prs = await github.rest.pulls.get({
+                    ...repo,
+                    head: process.env.BRANCH,
+                    state: 'open'
+                  }).then(d => d.data)
+
+                  if (prs.length === 0) {
+                    await github.rest.pulls.get({
+                      ...repo,
+                      head: process.env.BRANCH,
+                      base: 'main',
+                      title: 'Update MDK with new output from mod generator'
+                    })
+                  }
