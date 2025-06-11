@@ -113,7 +113,7 @@ jobs:
                 script: |
                   const repoPath = process.env.REPO.split('/')
                   const repo = { owner: repoPath[0], repo: repoPath[1] }
-                  const prs = await github.rest.pulls.get({
+                  const prs = await github.rest.pulls.list({
                     ...repo,
                     head: process.env.BRANCH,
                     state: 'open'
