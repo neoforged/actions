@@ -120,7 +120,7 @@ jobs:
                   }).then(d => d.data)
 
                   if (prs.length === 0) {
-                    await github.rest.pulls.get({
+                    await github.rest.pulls.create({
                       ...repo,
                       head: process.env.BRANCH,
                       base: 'main',
