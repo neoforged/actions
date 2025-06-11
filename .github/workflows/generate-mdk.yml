@@ -80,8 +80,8 @@ jobs:
             - name: Add changed files and make gradlew executable
               working-directory: ./downstream
               run: |
-                git add .
                 git update-index --chmod +x gradlew
+                git add .
             - name: Check status
               id: check-status
               uses: actions/github-script@v7
