@@ -62,12 +62,22 @@ jobs:
                 actor: 'neoforge-mdk-automation[bot]'
 
             - name: Checkout downstream
+              id: checkout-downstream
               uses: actions/checkout@v4
+              continue-on-error: true
               with:
                 repository: ${{ github.event.inputs.repository }}
                 path: downstream
                 persist-credentials: false
                 fetch-depth: 0
+            - name: Create downstream repo
+              if: failure()
+              working-directory: ./downstream
+              run: |
+                mkdir ./downstream
+                cd downstream 
+                git init
+                git checkout -b main
 
             - name: Check empty
               id: check-empty
