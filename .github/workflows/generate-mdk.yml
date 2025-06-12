@@ -71,7 +71,7 @@ jobs:
                 persist-credentials: false
                 fetch-depth: 0
             - name: Create downstream repo
-              if: failure()
+              if: steps.checkout-downstream.outcome == 'failure'
               working-directory: ./downstream
               run: |
                 mkdir ./downstream
