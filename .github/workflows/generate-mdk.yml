@@ -74,8 +74,6 @@ jobs:
               if: steps.checkout-downstream.outcome == 'failure'
               working-directory: ./downstream
               run: |
-                mkdir ./downstream
-                cd downstream 
                 git init
                 git checkout -b main
 
