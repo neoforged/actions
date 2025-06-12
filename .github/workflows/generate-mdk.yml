@@ -20,9 +20,6 @@ on:
         description: The branch to push to
         required: true
 
-concurrency:
-  group: mdk-generation-${{ inputs.gradle_plugin }}
-
 jobs:
     generate:
         runs-on: ubuntu-latest
