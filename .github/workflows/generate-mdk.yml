@@ -68,8 +68,21 @@ jobs:
                 path: downstream
                 persist-credentials: false
                 fetch-depth: 0
+
+            - name: Check empty
+              id: check-empty
+              uses: actions/github-script@v7
+              with:
+                result-encoding: string
+                script: |
+                  const { stdout } = await exec.getExecOutput('git', ['status'], {cwd: './downstream'});
+                  const isEmpty = stdout.includes('No commits yet')
+                  console.log(`Is branch empty: ${isEmpty}`)
+                  return isEmpty
+
             - name: Switch to ${{ inputs.branch }} branch
               working-directory: ./downstream
+              if: steps.check-empty.outputs.result == 'false'
               run: git switch ${{ inputs.branch }} || git switch -c ${{ inputs.branch }}
             - name: Remove tracked files from downstream repository
               working-directory: ./downstream
@@ -100,10 +113,10 @@ jobs:
                 git commit -m "Update MDK with new output from mod generator"
                 git remote remove origin
                 git remote add downstream https://neoforge-mdk-automation[bot]:${{ steps.gen_downstream_token.outputs.token }}@github.com/${{ github.event.inputs.repository }}.git
-                git push -u downstream ${{ inputs.branch }}
+                git push -u downstream ${{ steps.check-empty.outputs.result == 'true' && 'main' || inputs.branch }}
 
             - name: Create PR
-              if: steps.check-status.outputs.result == 'true'
+              if: steps.check-status.outputs.result == 'true' && steps.check-empty.outputs.result == 'false'
               uses: actions/github-script@v7
               env:
                 REPO: ${{ inputs.repository }}
