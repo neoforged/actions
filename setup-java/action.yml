@@ -30,16 +30,16 @@ runs:
           {
             "problemMatcher": [
               {
-                  "owner": "javac",
-                  "pattern": [
-                    {
-                      "regexp": "^([^:]+\\.java):(\\d+): (warning|error): (.+?)$",
-                      "file": 1,
-                      "line": 2,
-                      "severity": 3,
-                      "message": 4
-                    }
-                  ]
+                "owner": "javac",
+                "pattern": [
+                  {
+                    "regexp": "^([^:]+\\.java):(\\d+): (warning|error): (.+?)$",
+                    "file": 1,
+                    "line": 2,
+                    "severity": 3,
+                    "message": 4
+                  }
+                ]
               }
             ]
           }
