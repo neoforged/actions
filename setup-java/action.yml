@@ -32,7 +32,7 @@ runs:
                   "owner": "javac",
                   "pattern": [
                     {
-                      "regexp": "^([^:]+):(\\d+): (warning|error): (.+?)$",
+                      "regexp": "^([^:]+\\.java):(\\d+): (warning|error): (.+?)$",
                       "file": 1,
                       "line": 2,
                       "severity": 3,
