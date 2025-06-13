@@ -24,6 +24,7 @@ runs:
         java-version: ${{ inputs.java-version }}
         distribution: 'temurin'
     - name: Setup problem matcher
+      shell: bash
       env:
         MATCHER: |
           {
