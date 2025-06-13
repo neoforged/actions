@@ -44,6 +44,6 @@ runs:
             ]
           }
       run: |
-        mkdir /problem-matchers/
-        echo "$MATCHER" > /problem-matchers/javac.json
-        echo "::add-matcher::/problem-matchers/javac.json"
+        mkdir /tmp/problem-matchers/
+        echo "$MATCHER" > /tmp/problem-matchers/javac.json
+        echo "::add-matcher::/tmp/problem-matchers/javac.json"
