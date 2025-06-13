@@ -23,3 +23,26 @@ runs:
       with:
         java-version: ${{ inputs.java-version }}
         distribution: 'temurin'
+    - name: Setup problem matcher
+      env:
+        MATCHER: |
+          {
+            "problemMatcher": [
+              {
+                  "owner": "javac",
+                  "pattern": [
+                    {
+                      "regexp": "^([^:]+):(\\d+): (warning|error): (.+?)$",
+                      "file": 1,
+                      "line": 2,
+                      "severity": 3,
+                      "message": 4
+                    }
+                  ]
+              }
+            ]
+          }
+      run: |
+        mkdir /problem-matchers/
+        echo "$MATCHER" > /problem-matchers/javac.json
+        echo "::add-matcher::/problem-matchers/javac.json"
