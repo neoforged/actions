@@ -34,6 +34,11 @@ on:
         required: false
         type: boolean
         default: true
+      graphics_environment:
+          description: "If enabled, provides graphical capabilities using software OpenGL rendering and Xvfb"
+          required: false
+          type: boolean
+          default: false
     secrets:
       DISCORD_WEBHOOK:
         required: true
@@ -161,11 +166,11 @@ jobs:
       - name: Gradle pre-publication tasks
         if: inputs.pre_gradle_tasks
         run: |
-          ./gradlew ${{ inputs.pre_gradle_tasks }}
+          ${{ inputs.graphics_environment && 'xvfb-run' || '' }} ./gradlew ${{ inputs.pre_gradle_tasks }}
 
       - name: Gradle ${{ inputs.gradle_tasks }}
         run: |
-          ./gradlew ${{ inputs.gradle_tasks }}
+          ${{ inputs.graphics_environment && 'xvfb-run' || '' }} ./gradlew ${{ inputs.gradle_tasks }}
         env:
           MAVEN_USER: ${{ secrets.MAVEN_USER }}
           MAVEN_PASSWORD: ${{ secrets.MAVEN_PASSWORD }}
