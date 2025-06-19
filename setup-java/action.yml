@@ -3,9 +3,19 @@ description: 'Setup Java'
 
 inputs:
   java-version:
-    description: 'The Java version to set up'
+    description: The Java version to set up
     type: string
     required: true
+  problem-matcher:
+    description: Whether to enable the problem matcher
+    type: boolean
+    required: false
+    default: true
+  warning-file-path:
+    description: A regex pattern to be used to match Java file names (without the .java suffix) that should have warnings
+    type: string
+    required: false
+    default: '[^:]+'
 
 runs:
   using: 'composite'
@@ -25,15 +35,29 @@ runs:
         distribution: 'temurin'
     - name: Setup problem matcher
       shell: bash
+      if: inputs.problem-matcher
       env:
         MATCHER: |
           {
             "problemMatcher": [
               {
-                "owner": "javac",
+                "owner": "javac-errors",
                 "pattern": [
                   {
-                    "regexp": "^([^:]+\\.java):(\\d+): (warning|error): (\\[(.+?)\\] )?(.+?)$",
+                    "regexp": "^([^:]+\\.java):(\\d+): (error): (\\[(.+?)\\] )?(.+?)$",
+                    "file": 1,
+                    "line": 2,
+                    "severity": 3,
+                    "code": 5,
+                    "message": 6
+                  }
+                ]
+              },
+              {
+                "owner": "javac-warnings",
+                "pattern": [
+                  {
+                    "regexp": "^(${{ inputs.warning-file-path }}\\.java):(\\d+): (warning): (\\[(.+?)\\] )?(.+?)$",
                     "file": 1,
                     "line": 2,
                     "severity": 3,
