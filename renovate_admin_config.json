@@ -8,6 +8,8 @@
     "repositoryCache": "enabled",
     "dependencyDashboardFooter": "- [ ] Click to force Renovate to run again on this repository",
     "username": "neoforged-renovate[bot]",
-    "allowedPostUpgradeCommands": ["^\\./gradlew wrapper$"],
+    "allowedCommands": [
+        "^\\.\/gradlew .+$"
+    ],
     "platformCommit": "enabled"
 }
