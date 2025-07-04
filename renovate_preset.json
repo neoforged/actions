@@ -3,7 +3,8 @@
     "addLabels": ["dependencies"],
     "extends": ["group:recommended"],
     "env":{
-      "GRADLE_USER_HOME": ".gradle/userhome"
+      "GRADLE_USER_HOME": ".gradle/userhome",
+      "XDG_CONFIG_HOME": ".gradle/git"
     },
     "dependencyDashboard": true,
     "dependencyDashboardApproval": true,
