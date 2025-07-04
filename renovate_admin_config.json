@@ -9,7 +9,7 @@
     "dependencyDashboardFooter": "- [ ] Click to force Renovate to run again on this repository",
     "username": "neoforged-renovate[bot]",
     "allowedCommands": [
-        "^\\.\/gradlew .+$"
+        "^\\.\\/gradlew .+$"
     ],
     "platformCommit": "enabled"
 }
