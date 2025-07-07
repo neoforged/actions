@@ -64,6 +64,16 @@ runs:
                     "message": 6
                   }
                 ]
+              },
+              {
+                "owner": "immaculate",
+                "pattern": [
+                  {
+                    "regexp": "^Issue formatting file (.+)\\s(.+)$",
+                    "file": 1,
+                    "message": 2
+                  }
+                ]
               }
             ]
           }
