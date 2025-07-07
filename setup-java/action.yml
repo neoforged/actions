@@ -69,9 +69,12 @@ runs:
                 "owner": "immaculate",
                 "pattern": [
                   {
-                    "regexp": "^Issue formatting file (.+)\\s(.+)$",
-                    "file": 1,
-                    "message": 2
+                    "regexp": "^Issue formatting file (.+)$",
+                    "file": 1
+                  },
+                  {
+                    "regexp": "^(.+)$",
+                    "message": 1
                   }
                 ]
               }
