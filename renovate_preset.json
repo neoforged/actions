@@ -29,7 +29,8 @@
             "matchPackagePatterns": [
                 "^net\\.neoforged(\\.|:)"
             ],
-            "overrideDatasource": "custom.neomaven"
+            "overrideDatasource": "custom.neomaven",
+            "registryUrls": []
         },
         {
             "matchDatasources": ["maven"],
@@ -62,13 +63,6 @@
             "defaultRegistryUrlTemplate": "https://reactionable.neoforged.net/renovate/{{packageName}}/{{currentValue}}"
         }
     },
-
-    "logLevelRemap": [
-        {
-            "matchMessage": "/^Custom manager fetcher/",
-            "newLogLevel": "info"
-        }
-    ],
 
     "presetCachePersistence": true
 }
