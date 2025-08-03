@@ -63,5 +63,12 @@
         }
     },
 
+    "logLevelRemap": [
+        {
+            "matchMessage": "/^Custom manager fetcher/",
+            "newLogLevel": "info"
+        }
+    ],
+
     "presetCachePersistence": true
 }
