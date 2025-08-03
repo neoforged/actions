@@ -18,12 +18,18 @@
         {
             "matchDatasources": ["maven"],
             "matchPackagePatterns": [
-                "^net\\.neoforged(\\.|:)",
                 "^cpw\\.mods(\\.|:)",
                 "^org\\.parchmentmc(\\.|:)",
                 "^net\\.covers1624(\\.|:)"
             ],
             "registryUrls": ["https://maven.neoforged.net/releases"]
+        },
+        {
+            "matchDatasources": ["maven"],
+            "matchPackagePatterns": [
+                "^net\\.neoforged(\\.|:)"
+            ],
+            "overrideDatasource": "custom.neomaven"
         },
         {
             "matchDatasources": ["maven"],
@@ -50,5 +56,12 @@
             "allowedVersions": "!/47\\..+/"
         }
     ],
+
+    "customDatasources": {
+        "neomaven": {
+            "defaultRegistryUrlTemplate": "https://reactionable.neoforged.net/renovate/{{packageName}}/{{currentValue}}"
+        }
+    },
+
     "presetCachePersistence": true
 }
