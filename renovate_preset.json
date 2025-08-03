@@ -30,7 +30,7 @@
                 "^net\\.neoforged(\\.|:)"
             ],
             "overrideDatasource": "custom.neomaven",
-            "registryUrls": []
+            "registryUrls": ["https://reactionable.neoforged.net/renovate/{{packageName}}/{{currentValue}}"]
         },
         {
             "matchDatasources": ["maven"],
