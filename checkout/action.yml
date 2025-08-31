@@ -15,7 +15,9 @@ runs:
       run: git fetch --tags
 
     # GradleUtils will append the branch name to the version,
-    # but for that we need a properly checked out branch
+    # but for that we need a properly checked out branch.
+    # The branch name is lowercased so that the computed version is also lowercase
+    # as Gradle doesn't love uppercase versions.
     - name: Create branch for commit (PR)
       if: ${{ github.event_name == 'pull_request' }}
       shell: bash
