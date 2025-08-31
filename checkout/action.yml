@@ -20,8 +20,9 @@ runs:
       if: ${{ github.event_name == 'pull_request' }}
       shell: bash
       run:
-        HEAD_REF="${{ github.event.pull_request.head.ref }}"
-        git switch -C "pr-${{ github.event.pull_request.number }}-${HEAD_REF,,}"
+        branch_name="${GITHUB_HEAD_REF:-${{ github.head_ref }}}"
+        branch_name_lower=$(echo "$branch_name" | tr '[:upper:]' '[:lower:]')
+        git switch -C "pr-${{ github.event.pull_request.number }}-$branch_name_lower"
 
     - name: Create branch for commit
       if: ${{ github.event_name != 'pull_request' }}
