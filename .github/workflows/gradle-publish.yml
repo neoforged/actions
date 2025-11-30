@@ -74,6 +74,9 @@ permissions:
   contents: read
   statuses: write
 
+env:
+  MAVEN_URL_SNAPSHOTS: https://maven.neoforged.net/snapshots/
+
 jobs:
   compute-version:
     name: Compute version
