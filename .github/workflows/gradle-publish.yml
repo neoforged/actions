@@ -76,7 +76,7 @@ on:
         required: false
 
 permissions:
-  contents: read
+  contents: '${{ inputs.configure_git_user && "write" || "false" }}'
   statuses: write
 
 env:
