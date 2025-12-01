@@ -35,10 +35,15 @@ on:
         type: boolean
         default: true
       graphics_environment:
-          description: "If enabled, provides graphical capabilities using software OpenGL rendering and Xvfb"
-          required: false
-          type: boolean
-          default: false
+        description: "If enabled, provides graphical capabilities using software OpenGL rendering and Xvfb"
+        required: false
+        type: boolean
+        default: false
+      configure_git_user:
+        description: "Configures a username and email for the checked out Git repository to allow for commits"
+        required: false
+        type: boolean
+        default: false
     secrets:
       DISCORD_WEBHOOK:
         required: true
@@ -153,6 +158,13 @@ jobs:
 
       - name: Fetch tags # See https://github.com/actions/checkout/issues/2041
         run: git fetch --tags
+
+      # https://github.com/actions/checkout?tab=readme-ov-file#push-a-commit-using-the-built-in-token
+      - name: Configure Git commit author
+        if: inputs.configure_git_user
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
       - name: Make Gradle executable
         # language=bash
