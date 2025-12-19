@@ -32,5 +32,5 @@ runs:
       if: ${{ github.event_name != 'pull_request' }}
       shell: bash
       run:
-
         git switch -C ${{ github.ref_name }}
+
