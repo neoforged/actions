@@ -154,10 +154,7 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 1000
-          fetch-tags: true
-          # Attempt to work around https://github.com/actions/checkout/issues/1467
-          # Builds for tags will otherwise fail because they try to fetch all refs and the tag explicitly
-          ref: ${{ github.ref }}
+          fetch-tags: ${{ !startsWith(github.ref, 'refs/tags/') }}
 
       - name: Fetch tags # See https://github.com/actions/checkout/issues/2041
         run: git fetch --tags
