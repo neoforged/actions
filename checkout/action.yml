@@ -5,10 +5,11 @@ runs:
   using: 'composite'
   steps:
     - name: Checkout repository
-      uses: actions/checkout@v4
+      uses: actions/checkout@v6
       with:
         fetch-depth: 1000
         fetch-tags: true
+        ref: ${{ github.ref }}
 
     - name: Fetch tags # See https://github.com/actions/checkout/issues/2041
       shell: bash
@@ -31,4 +32,5 @@ runs:
       if: ${{ github.event_name != 'pull_request' }}
       shell: bash
       run:
+
         git switch -C ${{ github.ref_name }}
