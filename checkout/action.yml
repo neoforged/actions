@@ -33,4 +33,3 @@ runs:
       shell: bash
       run:
         git switch -C ${{ github.ref_name }}
-
