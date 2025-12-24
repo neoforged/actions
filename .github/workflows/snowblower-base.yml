@@ -64,7 +64,7 @@ jobs:
         name: Setup Java
         with:
           distribution: 'zulu' # See 'Supported distributions' for available options
-          java-version: '17'
+          java-version: '21'
 
       - name: Download SnowBlower
         run: wget https://maven.neoforged.net/releases/net/neoforged/snowblower/${{ inputs.snowblower-version }}/snowblower-${{ inputs.snowblower-version }}-all.jar -O snowblower.jar
@@ -93,3 +93,4 @@ jobs:
           path: |
             .snowblower/caches
           key: ${{ steps.cache-restore.outputs.cache-primary-key }}
+
