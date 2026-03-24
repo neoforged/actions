@@ -49,6 +49,11 @@ on:
         required: false
         type: boolean
         default: false
+      increment_last_version_component:
+        description: 'Controls how the version offset (number of commits compared to the last tag) is applied. When true and there are at least 3 version components, it is added to the last existing component. When false, it is always added as an additional version component.'
+        required: false
+        type: boolean
+        default: true
     secrets:
       DISCORD_WEBHOOK:
         required: true
@@ -94,7 +99,7 @@ jobs:
     outputs:
       version: ${{ inputs.version_task && steps.gradle.outputs.version || steps.version.outputs.version }}
     steps:
-      - uses: neoforged/action-tag-versioning@v1
+      - uses: neoforged/action-tag-versioning@v2
         name: Calculate version
         id: version
         if: ${{ !inputs.version_task }}
@@ -102,6 +107,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           labels: ${{ inputs.version_labels }}
+          increment_last_component: ${{ inputs.increment_last_version_component }}
       - uses: actions/checkout@v4
         if: inputs.version_task
         with:
