@@ -75,8 +75,6 @@ jobs:
           uses: ctrf-io/github-test-reporter@v1
           with:
             report-path: '**/test-results/**/*.xml'
-            github-report: true
-            suite-folded-report: true
             integrations-config: |
               {
                 "junit-to-ctrf": {
