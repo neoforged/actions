@@ -71,6 +71,24 @@ jobs:
               **/build/reports/
               **/build/test-results/
 
+        - name: Publish Test Report
+          uses: ctrf-io/github-test-reporter@v1
+          with:
+            report-path: '**/test-results/**/*.xml'
+            integrations-config: |
+              {
+                "junit-to-ctrf": {
+                  "enabled": true,
+                  "action": "convert",
+                  "options": {
+                    "output": "./ctrf-reports/ctrf-report.json",
+                    "toolname": "junit-to-ctrf",
+                    "useSuiteName": false
+                  }
+                }
+              }
+          if: always()
+
         - name: Run JCC
           if: inputs.jar_compatibility
           run: |
