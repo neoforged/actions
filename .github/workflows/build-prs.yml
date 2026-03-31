@@ -88,7 +88,6 @@ jobs:
                   }
                 }
               }
-          if: always()
 
         - name: Run JCC
           if: inputs.jar_compatibility
