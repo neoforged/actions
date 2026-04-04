@@ -45,3 +45,4 @@ jobs:
           uploader-workflow-name: ${{ inputs.uploader_workflow_name }}
           artifacts-base-path: ${{ inputs.artifact_base_path }}
           self-name: 'neoforged-pr-publishing[bot]'
+          artifacts-size-limit: 75
