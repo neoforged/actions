@@ -161,9 +161,11 @@ jobs:
   gradle:
     needs: ["compute-version"] # Make sure we now the version before starting to build
     runs-on: ubuntu-latest
-    env:
-      ORG_GRADLE_PROJECT_version: ${{ inputs.set_project_version && needs.compute-version.outputs.version || null }}
     steps:
+      - name: Set version explicitly
+        if: inputs.set_project_version
+        run: echo "ORG_GRADLE_PROJECT_version=${{ needs.compute-version.outputs.version }}" >> $GITHUB_ENV
+
       - uses: actions/checkout@v6
         with:
           fetch-depth: ${{ startsWith(github.ref, 'refs/tags/release/') && '1' || '1000' }}
