@@ -104,12 +104,6 @@
             "overrideDepName": "MixinExtras"
         },
         {
-            "matchDepNames": [
-                "net.neoforged.jarcompatibilitychecker"
-            ],
-            "overrideDepName": "JarCompatibilityChecker"
-        },
-        {
             "matchPackageNames": [
                 "net.neoforged:accesstransformers"
             ],
@@ -126,12 +120,6 @@
                 "net.neoforged.installertools:installertools"
             ],
             "overrideDepName": "InstallerTools"
-        },
-        {
-            "matchPackageNames": [
-                "dev.lukebemish.immaculate"
-            ],
-            "overrideDepName": "Immaculate"
         },
         {
             "matchPackageNames": [
