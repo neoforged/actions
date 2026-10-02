@@ -55,6 +55,13 @@
                 "net.neoforged:minecraft-dependencies"
             ],
             "enabled": false
+        },
+
+        {
+            "matchDepNames": [
+                "fancy_mod_loader_version"
+            ],
+            "overrideDepName": "FancyModLoader"
         }
     ]
 }
