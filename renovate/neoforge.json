@@ -6,6 +6,7 @@
     ],
     "baseBranches": [
         "$default",
+        "26.1.x",
         "1.21.1"
     ],
     "customManagers": [
