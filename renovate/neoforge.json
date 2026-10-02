@@ -35,7 +35,7 @@
                 "major"
             ],
             "matchBaseBranches": [
-                "1.21.x"
+                "$default"
             ],
             "enabled": true
         },
