@@ -162,6 +162,42 @@
                 "org.ow2.asm:asm"
             ],
             "overrideDepName": "ASM"
+        },
+        {
+            "matchPackageNames": [
+                "org.assertj:assertj-core"
+            ],
+            "overrideDepName": "AssertJ"
+        },
+        {
+            "matchPackageNames": [
+                "cpw.mods:securejarhandler"
+            ],
+            "overrideDepName": "SecureJarHandler"
+        },
+        {
+            "matchPackageNames": [
+                "net.neoforged:AutoRenamingTool"
+            ],
+            "overrideDepName": "AutoRenamingTool"
+        },
+        {
+            "matchPackageNames": [
+                "net.neoforged:bus"
+            ],
+            "overrideDepName": "Bus"
+        },
+        {
+            "matchPackageNames": [
+                "io.codechicken:DiffPatch"
+            ],
+            "overrideDepName": "DiffPatch"
+        },
+        {
+            "matchPackageNames": [
+                "org.openjdk.nashorn:nashorn-core"
+            ],
+            "overrideDepName": "Nashorn"
         }
     ]
 }
