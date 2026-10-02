@@ -75,9 +75,105 @@
         },
         {
             "matchDepPatterns": [
+                "^net\\.neoforged:JarJar"
+            ],
+            "overrideDepName": "JarJar"
+        },
+        {
+            "matchDepPatterns": [
                 "^net\\.neoforged[.:]moddev"
             ],
             "overrideDepName": "ModDevGradle"
+        },
+        {
+            "matchDepPatterns": [
+                "^com\\.electronwill\\.night-config"
+            ],
+            "overrideDepName": "NightConfig"
+        },
+        {
+            "matchPackageNames": [
+                "net.fabricmc:sponge-mixin"
+            ],
+            "overrideDepName": "Mixin"
+        },
+        {
+            "matchPackageNames": [
+                "io.github.llamalad7:mixinextras-neoforge"
+            ],
+            "overrideDepName": "MixinExtras"
+        },
+        {
+            "matchPackageNames": [
+                "net.neoforged.jarcompatibilitychecker"
+            ],
+            "overrideDepName": "JarCompatibilityChecker"
+        },
+        {
+            "matchPackageNames": [
+                "net.neoforged:accesstransformers"
+            ],
+            "overrideDepName": "AccessTransformers"
+        },
+        {
+            "matchPackageNames": [
+                "net.neoforged:mergetool"
+            ],
+            "overrideDepName": "MergeTool"
+        },
+        {
+            "matchPackageNames": [
+                "net.neoforged.installertools:installertools"
+            ],
+            "overrideDepName": "InstallerTools"
+        },
+        {
+            "matchPackageNames": [
+                "dev.lukebemish.immaculate"
+            ],
+            "overrideDepName": "Immaculate"
+        },
+        {
+            "matchPackageNames": [
+                "org.apache.maven:maven-artifact"
+            ],
+            "overrideDepName": "Maven Artifact"
+        },
+        {
+            "matchPackageNames": [
+                "org.mockito:mockito-core"
+            ],
+            "overrideDepName": "Mockito"
+        },
+        {
+            "matchPackageNames": [
+                "net.neoforged.jst:jst-cli-bundle"
+            ],
+            "overrideDepName": "JavaSourceTransformer"
+        },
+        {
+            "matchPackageNames": [
+                "org.eclipse.jdt:org.eclipse.jdt.core"
+            ],
+            "overrideDepName": "Eclipse JDT Core"
+        },
+        {
+            "matchPackageNames": [
+                "org.jetbrains:annotations"
+            ],
+            "overrideDepName": "JetBrains Annotations"
+        },
+        {
+            "matchPackageNames": [
+                "org.junit:junit-bom"
+            ],
+            "overrideDepName": "JUnit"
+        },
+        {
+            "matchPackageNames": [
+                "org.ow2.asm:asm"
+            ],
+            "overrideDepName": "ASM"
         }
     ]
 }
