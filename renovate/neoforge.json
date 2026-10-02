@@ -9,6 +9,9 @@
         "26.1.x",
         "1.21.1"
     ],
+    "prTitle": "[{{baseBranch}}] {{commitMessage}}",
+    "prTitleStrict": true,
+
     "customManagers": [
         {
             "customType": "regex",
