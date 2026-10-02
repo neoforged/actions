@@ -62,7 +62,7 @@
 
         {
             "matchDepPatterns": [
-                "^net\\.neoforged\\.fancymodloader:earlydisplay"
+                "^net\\.neoforged\\.fancymodloader:"
             ],
             "overrideDepName": "FancyModLoader"
         }
