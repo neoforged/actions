@@ -65,6 +65,12 @@
                 "^net\\.neoforged\\.fancymodloader:"
             ],
             "overrideDepName": "FancyModLoader"
+        },
+        {
+            "matchDepPatterns": [
+                "^net\\.neoforged[.:]moddev"
+            ],
+            "overrideDepName": "ModDevGradle"
         }
     ]
 }
