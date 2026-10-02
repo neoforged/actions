@@ -104,7 +104,7 @@
             "overrideDepName": "MixinExtras"
         },
         {
-            "matchPackageNames": [
+            "matchDepNames": [
                 "net.neoforged.jarcompatibilitychecker"
             ],
             "overrideDepName": "JarCompatibilityChecker"
