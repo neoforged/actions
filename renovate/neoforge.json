@@ -59,6 +59,13 @@
             ],
             "enabled": false
         },
+        
+        {
+            "matchPackageNames": [
+                "org.apache.maven:maven-artifact"
+            ],
+            "groupName": "maven-artifact"
+        },
 
         {
             "matchDepPatterns": [
