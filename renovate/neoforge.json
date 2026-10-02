@@ -61,6 +61,9 @@
             "matchDepNames": [
                 "fancy_mod_loader_version"
             ],
+            "matchDepPatterns": [
+                "^net\\.neoforged\\.fancymodloader:earlydisplay"
+            ],
             "overrideDepName": "FancyModLoader"
         }
     ]
