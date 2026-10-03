@@ -48,6 +48,139 @@
             "__comment": "Yay for FML going from major 47 back to zero",
             "matchPackagePatterns": ["^net\\.neoforged\\.fancymodloader:"],
             "allowedVersions": "!/47\\..+/"
+        },
+
+        {
+            "matchDepPatterns": [
+                "^net\\.neoforged\\.fancymodloader:"
+            ],
+            "overrideDepName": "FancyModLoader"
+        },
+        {
+            "matchDepPatterns": [
+                "^net\\.neoforged:JarJar"
+            ],
+            "overrideDepName": "JarJar"
+        },
+        {
+            "matchDepPatterns": [
+                "^net\\.neoforged[.:]moddev"
+            ],
+            "overrideDepName": "ModDevGradle"
+        },
+        {
+            "matchDepPatterns": [
+                "^com\\.electronwill\\.night-config"
+            ],
+            "overrideDepName": "NightConfig"
+        },
+        {
+            "matchPackageNames": [
+                "net.fabricmc:sponge-mixin"
+            ],
+            "overrideDepName": "Mixin"
+        },
+        {
+            "matchPackageNames": [
+                "io.github.llamalad7:mixinextras-neoforge"
+            ],
+            "overrideDepName": "MixinExtras"
+        },
+        {
+            "matchPackageNames": [
+                "net.neoforged:accesstransformers"
+            ],
+            "overrideDepName": "AccessTransformers"
+        },
+        {
+            "matchPackageNames": [
+                "net.neoforged:mergetool"
+            ],
+            "overrideDepName": "MergeTool"
+        },
+        {
+            "matchPackageNames": [
+                "net.neoforged.installertools:installertools"
+            ],
+            "overrideDepName": "InstallerTools"
+        },
+        {
+            "matchPackageNames": [
+                "org.apache.maven:maven-artifact"
+            ],
+            "overrideDepName": "Maven Artifact"
+        },
+        {
+            "matchPackageNames": [
+                "org.mockito:mockito-core"
+            ],
+            "overrideDepName": "Mockito"
+        },
+        {
+            "matchPackageNames": [
+                "net.neoforged.jst:jst-cli-bundle"
+            ],
+            "overrideDepName": "JavaSourceTransformer"
+        },
+        {
+            "matchPackageNames": [
+                "org.eclipse.jdt:org.eclipse.jdt.core"
+            ],
+            "overrideDepName": "Eclipse JDT Core"
+        },
+        {
+            "matchPackageNames": [
+                "org.jetbrains:annotations"
+            ],
+            "overrideDepName": "JetBrains Annotations"
+        },
+        {
+            "matchPackageNames": [
+                "org.junit:junit-bom"
+            ],
+            "overrideDepName": "JUnit"
+        },
+        {
+            "matchPackageNames": [
+                "org.ow2.asm:asm"
+            ],
+            "overrideDepName": "ASM"
+        },
+        {
+            "matchPackageNames": [
+                "org.assertj:assertj-core"
+            ],
+            "overrideDepName": "AssertJ"
+        },
+        {
+            "matchPackageNames": [
+                "cpw.mods:securejarhandler"
+            ],
+            "overrideDepName": "SecureJarHandler"
+        },
+        {
+            "matchPackageNames": [
+                "net.neoforged:AutoRenamingTool"
+            ],
+            "overrideDepName": "AutoRenamingTool"
+        },
+        {
+            "matchPackageNames": [
+                "net.neoforged:bus"
+            ],
+            "overrideDepName": "Bus"
+        },
+        {
+            "matchPackageNames": [
+                "io.codechicken:DiffPatch"
+            ],
+            "overrideDepName": "DiffPatch"
+        },
+        {
+            "matchPackageNames": [
+                "org.openjdk.nashorn:nashorn-core"
+            ],
+            "overrideDepName": "Nashorn"
         }
     ],
 
